@@ -3,43 +3,395 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Animal Explorer Pro | Discover Wildlife</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+    <title>Animal Explorer | Wildlife Discovery</title>
+    <!-- Modern Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2ecc71;
+            --primary-dark: #27ae60;
+            --bg: #f8fafc;
+            --text: #1e293b;
+            --card-bg: #ffffff;
+            --glass: rgba(255, 255, 255, 0.8);
+            --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+            --radius: 16px;
+        }
+
+        [data-theme="dark"] {
+            --bg: #0f172a;
+            --text: #f1f5f9;
+            --card-bg: #1e293b;
+            --glass: rgba(30, 41, 59, 0.8);
+            --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* --- Header & Glassmorphism Navigation --- */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            background: var(--glass);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .logo span { color: var(--primary); }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        /* --- Search Bar Styling --- */
+        .search-container {
+            position: relative;
+        }
+
+        #search-bar {
+            padding: 0.6rem 1rem;
+            padding-left: 2.5rem;
+            border-radius: 50px;
+            border: 1px solid rgba(0,0,0,0.1);
+            background: var(--card-bg);
+            color: var(--text);
+            outline: none;
+            width: 200px;
+            transition: width 0.3s ease;
+        }
+
+        #search-bar:focus {
+            width: 280px;
+            border-color: var(--primary);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            opacity: 0.5;
+        }
+
+        /* --- Theme Toggle --- */
+        #theme-toggle {
+            background: var(--card-bg);
+            border: 1px solid rgba(0,0,0,0.1);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: grid;
+            place-items: center;
+            font-size: 1.2rem;
+            box-shadow: var(--shadow);
+        }
+
+        /* --- Hero Section --- */
+        .hero {
+            padding: 160px 5% 60px;
+            text-align: center;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .hero h2 {
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 800;
+            margin-bottom: 1rem;
+            letter-spacing: -1px;
+        }
+
+        /* --- Filter Pills --- */
+        .filters {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 8px 20px;
+            border-radius: 50px;
+            border: none;
+            background: var(--card-bg);
+            color: var(--text);
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: var(--shadow);
+            transition: all 0.2s;
+        }
+
+        .filter-btn.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        /* --- Gallery Grid --- */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+            padding: 0 5% 100px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            cursor: pointer;
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .card:hover {
+            transform: scale(1.03);
+        }
+
+        .card-img-wrapper {
+            width: 100%;
+            height: 220px;
+            overflow: hidden;
+        }
+
+        .card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .card-content {
+            padding: 20px;
+        }
+
+        .card-tag {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            font-weight: 700;
+            color: var(--primary);
+            letter-spacing: 1px;
+        }
+
+        .card h3 {
+            margin: 5px 0 10px;
+            font-size: 1.4rem;
+        }
+
+        /* --- Modal --- */
+        .modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.8);
+            backdrop-filter: blur(8px);
+            z-index: 2000;
+            place-items: center;
+            padding: 20px;
+        }
+
+        .modal.active { display: grid; }
+
+        .modal-content {
+            background: var(--card-bg);
+            max-width: 800px;
+            width: 100%;
+            border-radius: 24px;
+            overflow: hidden;
+            position: relative;
+            animation: popIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        @keyframes popIn {
+            from { transform: scale(0.9); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(0,0,0,0.5);
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.5rem;
+        }
+
+        .modal-info { padding: 40px; }
+
+        @media (max-width: 600px) {
+            #search-bar { width: 120px; }
+            #search-bar:focus { width: 160px; }
+            .hero { padding-top: 120px; }
+        }
+    </style>
 </head>
 <body>
+
     <header>
-        <nav class="navbar">
-            <h1 class="logo">🌿 Animal<span>Explorer</span></h1>
-            <div class="nav-actions">
-                <input type="text" id="search-bar" placeholder="Search animals...">
-                <button id="theme-toggle" class="icon-btn">🌙</button>
+        <nav>
+            <div class="logo">🌿 <span>Animal</span>Explorer</div>
+            <div class="nav-right">
+                <div class="search-container">
+                    <span class="search-icon">🔍</span>
+                    <input type="text" id="search-bar" placeholder="Search...">
+                </div>
+                <button id="theme-toggle" title="Toggle Dark Mode">🌙</button>
             </div>
         </nav>
     </header>
 
     <main>
-        <section class="controls">
-            <div class="filter-group">
-                <button class="filter-btn active" data-filter="all">All</button>
-                <button class="filter-btn" data-filter="Mammal">Mammals</button>
-                <button class="filter-btn" data-filter="Bird">Birds</button>
-                <button class="filter-btn" data-filter="Reptile">Reptiles</button>
-            </div>
+        <section class="hero">
+            <h2>Experience the <span style="color:var(--primary)">Wild</span></h2>
+            <p>Explore high-definition wonders of the animal kingdom from every corner of the earth.</p>
         </section>
 
+        <div class="filters">
+            <button class="filter-btn active" data-filter="all">All Species</button>
+            <button class="filter-btn" data-filter="Mammal">Mammals</button>
+            <button class="filter-btn" data-filter="Bird">Birds</button>
+            <button class="filter-btn" data-filter="Reptile">Reptiles</button>
+        </div>
+
         <section id="gallery" class="gallery-grid">
-            </section>
+            <!-- Dynamic Content -->
+        </section>
     </main>
 
-    <div id="animal-modal" class="modal">
+    <div id="modal" class="modal">
         <div class="modal-content">
-            <span class="close-modal">&times;</span>
-            <div class="modal-body" id="modal-data">
-                </div>
+            <button class="close-btn">&times;</button>
+            <div id="modal-body"></div>
         </div>
     </div>
 
-    <script src="script.js"></script>
+    <script>
+        const animals = [
+            { name: "African Lion", type: "Mammal", habitat: "Savanna", info: "The king of beasts, known for its majestic mane and social pride structure.", img: "https://images.unsplash.com/photo-1546182990-dffeafbe841d?w=800" },
+            { name: "Mountain Gorilla", type: "Mammal", habitat: "Forests", info: "A gentle giant sharing 98% of human DNA, living in high-altitude clouds.", img: "https://images.unsplash.com/photo-1581491395704-7d630b55044f?w=800" },
+            { name: "Scarlet Macaw", type: "Bird", habitat: "Rainforest", info: "A burst of color in the canopy, these parrots are highly intelligent and social.", img: "https://images.unsplash.com/photo-1552728089-57bdde30eba3?w=800" },
+            { name: "Komodo Dragon", type: "Reptile", habitat: "Islands", info: "The world's largest lizard, a powerful apex predator from Indonesia.", img: "https://images.unsplash.com/photo-1545283454-32867493226a?w=800" },
+            { name: "Snow Leopard", type: "Mammal", habitat: "Mountains", info: "The 'Ghost of the Mountains', perfectly camouflaged in rocky, snowy terrain.", img: "https://images.unsplash.com/photo-1534193561958-40bfcd20ee4f?w=800" },
+            { name: "Bald Eagle", type: "Bird", habitat: "Coastlines", info: "A symbol of strength and freedom, with a massive wingspan and sharp vision.", img: "https://images.unsplash.com/photo-1611689342806-0863700ce1e4?w=800" }
+        ];
+
+        const gallery = document.getElementById('gallery');
+        const searchInput = document.getElementById('search-bar');
+        const themeToggle = document.getElementById('theme-toggle');
+        const modal = document.getElementById('modal');
+
+        // Render function
+        function render(data) {
+            gallery.innerHTML = data.map((animal, index) => `
+                <div class="card" onclick="openModal(${index})">
+                    <div class="card-img-wrapper">
+                        <img src="${animal.img}" alt="${animal.name}" loading="lazy">
+                    </div>
+                    <div class="card-content">
+                        <span class="card-tag">${animal.type}</span>
+                        <h3>${animal.name}</h3>
+                        <p style="font-size: 0.9rem; opacity: 0.7;">Click to explore habitat & facts →</p>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Filtering & Searching
+        function updateGallery() {
+            const searchTerm = searchInput.value.toLowerCase();
+            const activeFilter = document.querySelector('.filter-btn.active').dataset.filter;
+
+            const filtered = animals.filter(a => {
+                const matchesSearch = a.name.toLowerCase().includes(searchTerm);
+                const matchesTab = activeFilter === 'all' || a.type === activeFilter;
+                return matchesSearch && matchesTab;
+            });
+            render(filtered);
+        }
+
+        searchInput.addEventListener('input', updateGallery);
+
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelector('.filter-btn.active').classList.remove('active');
+                btn.classList.add('active');
+                updateGallery();
+            });
+        });
+
+        // Modal Logic
+        window.openModal = (i) => {
+            const a = animals[i];
+            document.getElementById('modal-body').innerHTML = `
+                <img src="${a.img}" style="width:100%; max-height:400px; object-fit:cover;">
+                <div class="modal-info">
+                    <span class="card-tag">${a.type} • ${a.habitat}</span>
+                    <h2 style="font-size:2.5rem; margin: 10px 0;">${a.name}</h2>
+                    <p style="font-size:1.1rem; opacity:0.8;">${a.info}</p>
+                </div>
+            `;
+            modal.classList.add('active');
+        };
+
+        document.querySelector('.close-btn').onclick = () => modal.classList.remove('active');
+        window.onclick = (e) => { if(e.target === modal) modal.classList.remove('active'); }
+
+        // Theme Toggle Logic
+        themeToggle.addEventListener('click', () => {
+            const isDark = document.body.hasAttribute('data-theme');
+            if (isDark) {
+                document.body.removeAttribute('data-theme');
+                themeToggle.textContent = '🌙';
+            } else {
+                document.body.setAttribute('data-theme', 'dark');
+                themeToggle.textContent = '☀️';
+            }
+        });
+
+        // Start
+        render(animals);
+    </script>
 </body>
 </html>
