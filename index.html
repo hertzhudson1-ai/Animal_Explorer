@@ -41,7 +41,6 @@
             overflow-x: hidden;
         }
 
-        /* --- Animated Navigation Bar --- */
         header {
             position: fixed;
             top: 0;
@@ -76,16 +75,7 @@
 
         .logo span { color: var(--primary); text-shadow: 0 0 15px var(--primary-glow); }
 
-        .nav-right {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-        }
-
-        /* --- Premium Search Bar --- */
-        .search-container {
-            position: relative;
-        }
+        .search-container { position: relative; }
 
         #search-bar {
             padding: 0.7rem 1.2rem 0.7rem 2.8rem;
@@ -113,7 +103,6 @@
             opacity: 0.6;
         }
 
-        /* --- Hero Section with Entrance Animation --- */
         .hero {
             padding: 180px 5% 80px;
             text-align: center;
@@ -127,14 +116,6 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        .hero h2 {
-            font-size: clamp(2.5rem, 6vw, 4rem);
-            font-weight: 800;
-            margin-bottom: 1.5rem;
-            line-height: 1.1;
-        }
-
-        /* --- Animated Filter Pills --- */
         .filters {
             display: flex;
             justify-content: center;
@@ -155,19 +136,12 @@
             transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
-        .filter-btn:hover {
-            transform: translateY(-3px);
-            background: var(--primary);
-            color: white;
-        }
-
         .filter-btn.active {
             background: var(--primary);
             color: white;
             box-shadow: 0 10px 20px var(--primary-glow);
         }
 
-        /* --- Immersive Gallery Grid --- */
         .gallery-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
@@ -183,38 +157,16 @@
             overflow: hidden;
             box-shadow: var(--shadow);
             cursor: pointer;
-            position: relative;
-            transform: translateY(0);
             transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
         }
 
-        .card:hover {
-            transform: translateY(-15px);
-            box-shadow: 0 30px 60px -12px rgba(0,0,0,0.25);
-        }
+        .card:hover { transform: translateY(-15px); }
 
-        .card-img-wrapper {
-            width: 100%;
-            height: 260px;
-            overflow: hidden;
-            position: relative;
-        }
+        .card-img-wrapper { width: 100%; height: 260px; overflow: hidden; }
+        .card img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.8s ease; }
+        .card:hover img { transform: scale(1.1); }
 
-        .card img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.8s ease;
-        }
-
-        .card:hover img {
-            transform: scale(1.1);
-        }
-
-        .card-content {
-            padding: 25px;
-        }
-
+        .card-content { padding: 25px; }
         .card-tag {
             font-size: 0.75rem;
             text-transform: uppercase;
@@ -227,7 +179,6 @@
             margin-bottom: 12px;
         }
 
-        /* --- Modern Modal --- */
         .modal {
             display: none;
             position: fixed;
@@ -240,7 +191,6 @@
         }
 
         .modal.active { display: grid; }
-
         .modal-content {
             background: var(--card-bg);
             max-width: 900px;
@@ -248,495 +198,184 @@
             border-radius: 32px;
             overflow: hidden;
             position: relative;
-            animation: modalScale 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
 
-        @keyframes modalScale {
-            from { transform: scale(0.8) translateY(40px); opacity: 0; }
-            to { transform: scale(1) translateY(0); opacity: 1; }
-        }
+        .video-wrapper { position: relative; padding-top: 56.25%; background: #000; }
+        .video-wrapper iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
 
-        .close-btn {
-            position: absolute;
-            top: 25px;
-            right: 25px;
-            background: rgba(255,255,255,0.2);
-            backdrop-filter: blur(5px);
-            color: white;
-            border: none;
-            width: 45px;
-            height: 45px;
-            border-radius: 50%;
-            cursor: pointer;
-            font-size: 1.8rem;
-            z-index: 10;
-        }
-
-        .modal-info { padding: 40px 50px; }
-
-        /* Video Container Styling */
-        .video-wrapper {
-            position: relative;
-            width: 100%;
-            padding-top: 56.25%; /* 16:9 Aspect Ratio */
-            background: #000;
-        }
-
-        .video-wrapper iframe {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            border: 0;
-        }
-
-        /* Scroll Progress Bar */
-        #progress {
-            position: fixed;
-            top: 0; left: 0; height: 4px;
-            background: var(--primary);
-            z-index: 1001;
-            width: 0%;
-        }
-
-        /* --- AI Chatbot Styles --- */
         #ai-toggle {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            background: var(--primary);
-            color: white;
-            border: none;
-            cursor: pointer;
-            box-shadow: 0 10px 30px var(--primary-glow);
-            z-index: 999;
-            font-size: 1.5rem;
-            display: grid;
-            place-items: center;
-            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-
-        #ai-toggle:hover {
-            transform: scale(1.1) rotate(10deg);
+            position: fixed; bottom: 30px; right: 30px; width: 60px; height: 60px;
+            border-radius: 50%; background: var(--primary); color: white; border: none;
+            cursor: pointer; box-shadow: 0 10px 30px var(--primary-glow); z-index: 999;
+            font-size: 1.5rem; display: grid; place-items: center;
         }
 
         #ai-chat-window {
-            position: fixed;
-            bottom: 100px;
-            right: 30px;
-            width: 380px;
-            height: 500px;
-            background: var(--card-bg);
-            border-radius: 24px;
-            box-shadow: var(--shadow);
-            z-index: 998;
-            display: none;
-            flex-direction: column;
-            overflow: hidden;
-            border: 1px solid rgba(255,255,255,0.1);
+            position: fixed; bottom: 100px; right: 30px; width: 420px; height: 550px;
+            background: var(--card-bg); border-radius: 24px; box-shadow: var(--shadow);
+            z-index: 998; display: none; flex-direction: column; overflow: hidden;
         }
 
-        #ai-chat-window.active {
-            display: flex;
-            animation: fadeIn 0.3s ease-out;
-        }
+        #ai-chat-window.active { display: flex; animation: fadeIn 0.3s ease-out; }
+        .chat-header { padding: 20px; background: var(--primary); color: white; display: flex; justify-content: space-between; }
+        .chat-messages { flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 15px; }
+        .message { padding: 12px 16px; border-radius: 18px; max-width: 90%; font-size: 0.9rem; }
+        .message.user { align-self: flex-end; background: var(--primary); color: white; }
+        .message.ai { align-self: flex-start; background: var(--bg); border: 1px solid rgba(0,0,0,0.05); }
 
-        .chat-header {
-            padding: 20px;
-            background: var(--primary);
-            color: white;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+        .grounding-sources { margin-top: 8px; font-size: 0.75rem; border-top: 1px solid rgba(0,0,0,0.1); padding-top: 5px; }
+        .source-link { color: var(--primary); text-decoration: none; display: block; margin-top: 2px; }
 
-        .chat-messages {
-            flex: 1;
-            padding: 20px;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-
-        .message {
-            padding: 12px 16px;
-            border-radius: 18px;
-            max-width: 85%;
-            font-size: 0.9rem;
-            line-height: 1.4;
-        }
-
-        .message.user {
-            align-self: flex-end;
-            background: var(--primary);
-            color: white;
-            border-bottom-right-radius: 4px;
-        }
-
-        .message.ai {
-            align-self: flex-start;
-            background: var(--bg);
-            color: var(--text);
-            border-bottom-left-radius: 4px;
-            border: 1px solid rgba(0,0,0,0.05);
-        }
-
-        .chat-input-area {
-            padding: 15px;
-            border-top: 1px solid rgba(0,0,0,0.05);
-            display: flex;
-            gap: 10px;
-        }
-
-        #chat-input {
-            flex: 1;
-            padding: 10px 15px;
-            border-radius: 50px;
-            border: 1px solid rgba(0,0,0,0.1);
-            background: var(--bg);
-            color: var(--text);
-            outline: none;
-        }
-
-        #send-chat {
-            background: var(--primary);
-            color: white;
-            border: none;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            cursor: pointer;
-            display: grid;
-            place-items: center;
-        }
-
-        .typing {
-            font-style: italic;
-            opacity: 0.6;
-            font-size: 0.8rem;
-            display: none;
-        }
-
-        @media (max-width: 600px) {
-            #search-bar { width: 40px; padding-left: 1.2rem; cursor: pointer; }
-            #search-bar:focus { width: 180px; padding-left: 2.8rem; }
-            .hero { padding-top: 130px; }
-            .gallery-grid { gap: 20px; }
-            #ai-chat-window {
-                width: calc(100% - 40px);
-                right: 20px;
-                bottom: 90px;
-            }
-        }
+        .chat-input-area { padding: 15px; border-top: 1px solid rgba(0,0,0,0.05); display: flex; gap: 10px; }
+        #chat-input { flex: 1; padding: 10px 15px; border-radius: 50px; border: 1px solid rgba(0,0,0,0.1); outline: none; background: var(--bg); color: var(--text); }
+        #send-chat { background: var(--primary); color: white; border: none; width: 40px; height: 40px; border-radius: 50%; cursor: pointer; }
     </style>
 </head>
 <body>
 
-    <div id="progress"></div>
-
     <header>
         <nav>
             <div class="logo">🌿 <span>Wildlife</span>Explorer</div>
-            <div class="nav-right">
+            <div class="nav-right" style="display:flex; gap:15px; align-items:center;">
                 <div class="search-container">
                     <span class="search-icon">🔍</span>
-                    <input type="text" id="search-bar" placeholder="Find a species...">
+                    <input type="text" id="search-bar" placeholder="Find species...">
                 </div>
-                <button id="theme-toggle" title="Toggle Nature/Night Mode">🌙</button>
+                <button id="theme-toggle" style="background:none; border:none; cursor:pointer; font-size:1.2rem">🌙</button>
             </div>
         </nav>
     </header>
 
     <main>
         <section class="hero">
-            <h2>Discover the <span style="color:var(--primary)">Untamed</span> World</h2>
-            <p>Journey into the heart of nature and meet the incredible creatures that share our planet.</p>
+            <h2 style="font-size:3rem; font-weight:800">Explore Global <span style="color:var(--primary)">Biodiversity</span></h2>
+            <p>Real-time high-accuracy wildlife data powered by advanced AI research.</p>
         </section>
 
         <div class="filters">
-            <button class="filter-btn active" data-filter="all">All Creatures</button>
+            <button class="filter-btn active" data-filter="all">Global Mix</button>
             <button class="filter-btn" data-filter="Mammal">Mammals</button>
             <button class="filter-btn" data-filter="Bird">Birds</button>
+            <button class="filter-btn" data-filter="Marine">Marine</button>
             <button class="filter-btn" data-filter="Reptile">Reptiles</button>
         </div>
 
-        <section id="gallery" class="gallery-grid">
-            <!-- Dynamic Content -->
-        </section>
+        <section id="gallery" class="gallery-grid"></section>
     </main>
 
     <div id="modal" class="modal">
         <div class="modal-content">
-            <button class="close-btn">&times;</button>
+            <button class="close-btn" style="position:absolute; top:20px; right:20px; background:rgba(0,0,0,0.5); color:white; border:none; width:40px; height:40px; border-radius:50%; cursor:pointer; font-size:1.5rem; z-index:10;">&times;</button>
             <div id="modal-body"></div>
         </div>
     </div>
 
-    <!-- AI Chatbot UI -->
     <button id="ai-toggle">🤖</button>
     <div id="ai-chat-window">
         <div class="chat-header">
-            <span style="font-weight: 800">Wildlife Assistant</span>
-            <button id="close-chat" style="background:transparent; border:none; color:white; cursor:pointer; font-size:1.2rem">&times;</button>
+            <span style="font-weight:800">Expert Research AI</span>
+            <button id="close-chat" style="background:none; border:none; color:white; cursor:pointer;">&times;</button>
         </div>
         <div class="chat-messages" id="chat-messages">
-            <div class="message ai">Hello! I'm your Wildlife AI Assistant. Ask me anything about the animals you see here!</div>
+            <div class="message ai">Hello! I'm grounded in global research databases. Ask me anything about wildlife behavior, habitats, or conservation status!</div>
         </div>
-        <div id="typing-indicator" class="typing" style="padding: 0 20px 10px">Assistant is thinking...</div>
+        <div id="typing-indicator" style="display:none; padding:10px 20px; font-size:0.8rem; opacity:0.6;">Researcher is citing sources...</div>
         <div class="chat-input-area">
-            <input type="text" id="chat-input" placeholder="Ask about animals...">
+            <input type="text" id="chat-input" placeholder="Ask a research question...">
             <button id="send-chat">➔</button>
         </div>
     </div>
 
     <script>
-        // Enhanced animals data with Curated Video IDs
         const animals = [
-            { 
-                name: "African Lion", 
-                type: "Mammal", 
-                habitat: "Savanna", 
-                info: "The king of beasts, known for its majestic mane and social pride structure. They are the only cats that live in large groups.", 
-                img: "https://images.unsplash.com/photo-1546182990-dffeafbe841d?w=1000",
-                videoId: "925V80XhAis" // Short nature clip
-            },
-            { 
-                name: "Mountain Gorilla", 
-                type: "Mammal", 
-                habitat: "Cloud Forests", 
-                info: "A gentle giant sharing 98% of human DNA. They live in high-altitude forests and are known for their strong family bonds.", 
-                img: "https://images.unsplash.com/photo-1581491395704-7d630b55044f?w=1000",
-                videoId: "0YyN5_G0Klk"
-            },
-            { 
-                name: "Scarlet Macaw", 
-                type: "Bird", 
-                habitat: "Rainforest", 
-                info: "A burst of color in the canopy. These parrots are highly intelligent, social, and can live up to 50 years in the wild.", 
-                img: "https://images.unsplash.com/photo-1552728089-57bdde30eba3?w=1000",
-                videoId: "02mC1_Y0A6I"
-            },
-            { 
-                name: "Komodo Dragon", 
-                type: "Reptile", 
-                habitat: "Indonesian Islands", 
-                info: "The world's largest lizard. They are powerful apex predators with a keen sense of smell, able to track prey for miles.", 
-                img: "https://images.unsplash.com/photo-1545283454-32867493226a?w=1000",
-                videoId: "26pXvU6F_v8"
-            },
-            { 
-                name: "Snow Leopard", 
-                type: "Mammal", 
-                habitat: "Himalayas", 
-                info: "Known as the 'Ghost of the Mountains', they are master of camouflage and can leap up to 50 feet in a single bound.", 
-                img: "https://images.unsplash.com/photo-1534193561958-40bfcd20ee4f?w=1000",
-                videoId: "A9tK73G4Eoo"
-            },
-            { 
-                name: "Bald Eagle", 
-                type: "Bird", 
-                habitat: "North American Coast", 
-                info: "A symbol of strength and vision. They build the largest nests of any North American bird, sometimes weighing over a ton!", 
-                img: "https://images.unsplash.com/photo-1611689342806-0863700ce1e4?w=1000",
-                videoId: "69p5Y_k8rF4"
-            }
+            { name: "Siberian Tiger", type: "Mammal", habitat: "Russian Far East", info: "The largest cat species in the world. They are master swimmers and highly solitary hunters of the frozen forests.", img: "https://images.unsplash.com/photo-1508248467877-ca0b05d22615?w=1000", videoId: "8uK_09V6J30" },
+            { name: "Blue Whale", type: "Marine", habitat: "Global Oceans", info: "The largest animal ever known to have lived on Earth. Their hearts are the size of a bumper car.", img: "https://images.unsplash.com/photo-1568430462989-44163eb1752f?w=1000", videoId: "bgiPTUy2RqI" },
+            { name: "King Cobra", type: "Reptile", habitat: "South Asia", info: "The world's longest venomous snake. They are unique among snakes because they build nests for their eggs.", img: "https://images.unsplash.com/photo-1531386151447-fd76ad500b2a?w=1000", videoId: "N_S8PzX5XoM" },
+            { name: "Peregrine Falcon", type: "Bird", habitat: "Worldwide", info: "The fastest animal on the planet, reaching speeds over 240 mph during its characteristic hunting stoop.", img: "https://images.unsplash.com/photo-1611689342806-0863700ce1e4?w=1000", videoId: "ov6U3_YpT-M" },
+            { name: "Giant Panda", type: "Mammal", habitat: "Central China", info: "A conservation success story. They spend up to 14 hours a day eating bamboo to maintain their energy.", img: "https://images.unsplash.com/photo-1564349683136-77e08bef1ef1?w=1000", videoId: "dqT-UlYlg1s" },
+            { name: "Galapagos Tortoise", type: "Reptile", habitat: "Galapagos Islands", info: "Famous for their extreme longevity, often living over 150 years. They played a key role in Darwin's theory of evolution.", img: "https://images.unsplash.com/photo-1516734212186-a967f81ad0d7?w=1000", videoId: "o5X_4C8S_7M" }
         ];
 
-        const gallery = document.getElementById('gallery');
-        const searchInput = document.getElementById('search-bar');
-        const themeToggle = document.getElementById('theme-toggle');
-        const modal = document.getElementById('modal');
-        const progressBar = document.getElementById('progress');
-
-        // Scroll Progress logic
-        window.onscroll = () => {
-            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
-            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-            const scrolled = (winScroll / height) * 100;
-            progressBar.style.width = scrolled + "%";
-        };
-
-        // Render function with staggered animation delay
         function render(data) {
-            gallery.innerHTML = data.map((animal, index) => {
-                // Find original index to maintain modal mapping
-                const originalIndex = animals.indexOf(animal);
-                return `
-                    <div class="card" onclick="openModal(${originalIndex})" style="animation: fadeIn 0.5s ease backwards ${index * 0.1}s">
-                        <div class="card-img-wrapper">
-                            <img src="${animal.img}" alt="${animal.name}" loading="lazy">
-                        </div>
-                        <div class="card-content">
-                            <span class="card-tag">${animal.type}</span>
-                            <h3 style="font-size: 1.6rem; margin-bottom: 8px;">${animal.name}</h3>
-                            <p style="font-size: 0.95rem; opacity: 0.6; font-weight: 500;">Watch Documentary Video →</p>
-                        </div>
+            document.getElementById('gallery').innerHTML = data.map((a, i) => `
+                <div class="card" onclick="openModal(${animals.indexOf(a)})">
+                    <div class="card-img-wrapper"><img src="${a.img}" loading="lazy"></div>
+                    <div class="card-content">
+                        <span class="card-tag">${a.type}</span>
+                        <h3 style="margin-bottom:10px">${a.name}</h3>
+                        <p style="font-size:0.9rem; opacity:0.6">Explore Research Data →</p>
                     </div>
-                `;
-            }).join('');
+                </div>
+            `).join('');
         }
 
-        function updateGallery() {
-            const searchTerm = searchInput.value.toLowerCase();
-            const activeFilter = document.querySelector('.filter-btn.active').dataset.filter;
-
-            const filtered = animals.filter(a => {
-                const matchesSearch = a.name.toLowerCase().includes(searchTerm);
-                const matchesTab = activeFilter === 'all' || a.type === activeFilter;
-                return matchesSearch && matchesTab;
-            });
-            render(filtered);
+        function update() {
+            const s = document.getElementById('search-bar').value.toLowerCase();
+            const f = document.querySelector('.filter-btn.active').dataset.filter;
+            render(animals.filter(a => a.name.toLowerCase().includes(s) && (f === 'all' || a.type === f)));
         }
 
-        searchInput.addEventListener('input', updateGallery);
-
-        document.querySelectorAll('.filter-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                document.querySelector('.filter-btn.active').classList.remove('active');
-                btn.classList.add('active');
-                updateGallery();
-            });
+        document.getElementById('search-bar').oninput = update;
+        document.querySelectorAll('.filter-btn').forEach(b => b.onclick = () => {
+            document.querySelector('.filter-btn.active').classList.remove('active');
+            b.classList.add('active');
+            update();
         });
 
         window.openModal = (i) => {
             const a = animals[i];
-            // Advanced Immersive Embed Player
-            // Rel=0 prevents suggested videos from other channels
-            // Modestbranding=1 hides logo
-            const videoEmbed = `<div class="video-wrapper">
-                <iframe 
-                    src="https://www.youtube.com/embed/${a.videoId}?autoplay=1&rel=0&modestbranding=1&mute=0" 
-                    title="Wildlife Video" 
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                    allowfullscreen>
-                </iframe>
-            </div>`;
-
             document.getElementById('modal-body').innerHTML = `
-                ${videoEmbed}
-                <div class="modal-info">
-                    <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:20px;">
-                        <div>
-                            <span class="card-tag" style="background:var(--primary); color:white">${a.type}</span>
-                            <h2 style="font-size:2.5rem; margin-top:10px; font-weight:800">${a.name}</h2>
-                        </div>
-                        <div style="text-align:right">
-                            <p style="opacity:0.6; font-size:0.75rem; font-weight:800; text-transform:uppercase">Global Habitat</p>
-                            <p style="font-weight:700">${a.habitat}</p>
-                        </div>
-                    </div>
-                    <p style="font-size:1.1rem; line-height:1.8; opacity:0.9;">${a.info}</p>
-                    <div style="margin-top:30px; padding-top:20px; border-top:1px solid rgba(0,0,0,0.05); display:flex; gap:15px; align-items:center;">
-                        <div style="width:40px; height:40px; background:var(--primary-glow); border-radius:50%; display:grid; place-items:center; color:var(--primary)">🎬</div>
-                        <p style="font-size:0.9rem; font-weight:600">Now Playing: Curated Wildlife Footage</p>
-                    </div>
-                </div>
-            `;
-            modal.classList.add('active');
+                <div class="video-wrapper"><iframe src="https://www.youtube.com/embed/${a.videoId}?autoplay=1&rel=0" allowfullscreen></iframe></div>
+                <div style="padding:40px">
+                    <h2 style="font-size:2.5rem">${a.name}</h2>
+                    <p style="margin:15px 0; line-height:1.8">${a.info}</p>
+                    <p style="font-weight:800; color:var(--primary)">Habitat: ${a.habitat}</p>
+                </div>`;
+            document.getElementById('modal').classList.add('active');
         };
 
-        document.querySelector('.close-btn').onclick = () => {
-            modal.classList.remove('active');
-            // Clear content to stop video playback
-            document.getElementById('modal-body').innerHTML = "";
-        };
+        document.querySelector('.close-btn').onclick = () => document.getElementById('modal').classList.remove('active');
 
-        window.onclick = (e) => { 
-            if(e.target === modal) {
-                modal.classList.remove('active');
-                document.getElementById('modal-body').innerHTML = "";
-            }
-        };
-
-        themeToggle.addEventListener('click', () => {
-            const isDark = document.body.hasAttribute('data-theme');
-            if (isDark) {
-                document.body.removeAttribute('data-theme');
-                themeToggle.textContent = '🌙';
-            } else {
-                document.body.setAttribute('data-theme', 'dark');
-                themeToggle.textContent = '☀️';
-            }
-        });
-
-        // AI Chat Logic
-        const aiToggle = document.getElementById('ai-toggle');
-        const aiChatWindow = document.getElementById('ai-chat-window');
-        const closeChat = document.getElementById('close-chat');
-        const chatMessages = document.getElementById('chat-messages');
-        const chatInput = document.getElementById('chat-input');
-        const sendChat = document.getElementById('send-chat');
-        const typingIndicator = document.getElementById('typing-indicator');
-
-        aiToggle.onclick = () => aiChatWindow.classList.toggle('active');
-        closeChat.onclick = () => aiChatWindow.classList.remove('active');
-
-        async function callGemini(query) {
-            const apiKey = ""; // API key managed by environment
+        // AI Logic
+        async function askAI(q) {
+            const apiKey = ""; 
             const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
-            
-            const systemPrompt = "You are a friendly Wildlife Expert for the 'Animal Explorer' website. Provide clean, age-appropriate, and fascinating facts about animals. Keep responses concise (2-4 sentences). Avoid harmful or inappropriate content.";
-            
             const payload = {
-                contents: [{ parts: [{ text: query }] }],
-                systemInstruction: { parts: [{ text: systemPrompt }] }
+                contents: [{ parts: [{ text: q }] }],
+                systemInstruction: { parts: [{ text: "You are a professional Wildlife Biologist. Provide accurate, clean, and safe wildlife facts for students. Use real-time data from search grounding." }] },
+                tools: [{ "google_search": {} }]
             };
-
-            let delay = 1000;
-            for (let i = 0; i < 5; i++) {
-                try {
-                    const response = await fetch(url, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(payload)
-                    });
-                    if (!response.ok) throw new Error('API Error');
-                    const result = await response.json();
-                    return result.candidates?.[0]?.content?.parts?.[0]?.text || "I'm sorry, I couldn't find an answer for that.";
-                } catch (error) {
-                    if (i === 4) return "I'm having trouble connecting to my wildlife database right now. Please try again later!";
-                    await new Promise(resolve => setTimeout(resolve, delay));
-                    delay *= 2;
-                }
-            }
+            try {
+                const res = await fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+                const json = await res.json();
+                const text = json.candidates[0].content.parts[0].text;
+                const sources = json.candidates[0].groundingMetadata?.groundingAttributions?.map(s => ({ url: s.web?.uri, title: s.web?.title })) || [];
+                return { text, sources };
+            } catch (e) { return { text: "Error fetching data. Try again.", sources: [] }; }
         }
 
-        async function handleMessage() {
-            const text = chatInput.value.trim();
-            if (!text) return;
+        document.getElementById('send-chat').onclick = async () => {
+            const input = document.getElementById('chat-input');
+            const msg = input.value.trim();
+            if (!msg) return;
+            const chat = document.getElementById('chat-messages');
+            chat.innerHTML += `<div class="message user">${msg}</div>`;
+            input.value = '';
+            document.getElementById('typing-indicator').style.display = 'block';
+            const res = await askAI(msg);
+            document.getElementById('typing-indicator').style.display = 'none';
+            let sourceHtml = res.sources.length ? `<div class="grounding-sources"><strong>Cited:</strong> ${res.sources.slice(0,2).map(s => `<a class="source-link" href="${s.url}" target="_blank">${s.title}</a>`).join('')}</div>` : "";
+            chat.innerHTML += `<div class="message ai">${res.text}${sourceHtml}</div>`;
+            chat.scrollTop = chat.scrollHeight;
+        };
 
-            // Add user message
-            const userDiv = document.createElement('div');
-            userDiv.className = 'message user';
-            userDiv.textContent = text;
-            chatMessages.appendChild(userDiv);
-            chatInput.value = '';
-            chatMessages.scrollTop = chatMessages.scrollHeight;
-
-            // Show typing
-            typingIndicator.style.display = 'block';
-
-            // Get AI response
-            const response = await callGemini(text);
-
-            // Hide typing
-            typingIndicator.style.display = 'none';
-
-            // Add AI message
-            const aiDiv = document.createElement('div');
-            aiDiv.className = 'message ai';
-            aiDiv.textContent = response;
-            chatMessages.appendChild(aiDiv);
-            chatMessages.scrollTop = chatMessages.scrollHeight;
-        }
-
-        sendChat.onclick = handleMessage;
-        chatInput.onkeypress = (e) => { if(e.key === 'Enter') handleMessage(); };
+        document.getElementById('ai-toggle').onclick = () => document.getElementById('ai-chat-window').classList.toggle('active');
+        document.getElementById('close-chat').onclick = () => document.getElementById('ai-chat-window').classList.remove('active');
+        document.getElementById('theme-toggle').onclick = () => {
+            const isDark = document.body.hasAttribute('data-theme');
+            isDark ? document.body.removeAttribute('data-theme') : document.body.setAttribute('data-theme', 'dark');
+            document.getElementById('theme-toggle').innerText = isDark ? '🌙' : '☀️';
+        };
 
         render(animals);
     </script>
