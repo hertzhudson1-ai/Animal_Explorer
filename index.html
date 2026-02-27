@@ -3,48 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WildLife Wonders | Explore Nature</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500;800&display=swap" rel="stylesheet">
+    <title>Animal Explorer Pro | Discover Wildlife</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <header class="glass-nav">
-        <nav>
-            <div class="logo">🐾 <span>WildLife</span>Wonders</div>
-            <ul class="nav-links">
-                <li><a href="#home">Home</a></li>
-                <li><a href="#gallery">Gallery</a></li>
-                <li><a href="#about">About</a></li>
-                <button id="theme-toggle" aria-label="Toggle Dark Mode">🌙</button>
-            </ul>
+    <header>
+        <nav class="navbar">
+            <h1 class="logo">🌿 Animal<span>Explorer</span></h1>
+            <div class="nav-actions">
+                <input type="text" id="search-bar" placeholder="Search animals...">
+                <button id="theme-toggle" class="icon-btn">🌙</button>
+            </div>
         </nav>
     </header>
 
     <main>
-        <section id="home" class="hero">
-            <div class="hero-content">
-                <h1 class="reveal-text">Discover the <span class="highlight">Untamed</span> Beauty</h1>
-                <p>An immersive journey through the world's most incredible habitats.</p>
-                <a href="#gallery" class="cta-btn">Start Exploring</a>
+        <section class="controls">
+            <div class="filter-group">
+                <button class="filter-btn active" data-filter="all">All</button>
+                <button class="filter-btn" data-filter="Mammal">Mammals</button>
+                <button class="filter-btn" data-filter="Bird">Birds</button>
+                <button class="filter-btn" data-filter="Reptile">Reptiles</button>
             </div>
         </section>
 
-        <section id="gallery" class="gallery">
-            <div class="section-header">
-                <h2>Animal Gallery</h2>
-                <div class="filter-bar">
-                    <button class="filter-btn active" data-filter="all">All</button>
-                    <button class="filter-btn" data-filter="mammal">Mammals</button>
-                    <button class="filter-btn" data-filter="bird">Birds</button>
-                </div>
-            </div>
-            <div class="gallery-grid" id="animal-container"></div>
-        </section>
+        <section id="gallery" class="gallery-grid">
+            </section>
     </main>
 
-    <footer>
-        <p>&copy; 2026 WildLife Wonders. Designed for Conservation.</p>
-    </footer>
+    <div id="animal-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <div class="modal-body" id="modal-data">
+                </div>
+        </div>
+    </div>
 
     <script src="script.js"></script>
 </body>
