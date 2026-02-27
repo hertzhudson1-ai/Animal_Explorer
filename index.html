@@ -4,33 +4,33 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Animal Explorer | Wildlife Discovery</title>
-    <!-- Modern Font -->
+    <!-- Modern Premium Font -->
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
     <style>
         :root {
             --primary: #2ecc71;
-            --primary-dark: #27ae60;
+            --primary-glow: rgba(46, 204, 113, 0.4);
             --bg: #f8fafc;
             --text: #1e293b;
             --card-bg: #ffffff;
-            --glass: rgba(255, 255, 255, 0.8);
-            --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
-            --radius: 16px;
+            --glass: rgba(255, 255, 255, 0.75);
+            --shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            --radius: 24px;
         }
 
         [data-theme="dark"] {
             --bg: #0f172a;
             --text: #f1f5f9;
             --card-bg: #1e293b;
-            --glass: rgba(30, 41, 59, 0.8);
-            --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+            --glass: rgba(15, 23, 42, 0.8);
+            --shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3);
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            transition: background-color 0.3s, color 0.3s;
+            transition: background-color 0.4s cubic-bezier(0.4, 0, 0.2, 1), color 0.3s;
         }
 
         body {
@@ -41,133 +41,137 @@
             overflow-x: hidden;
         }
 
-        /* --- Header & Glassmorphism Navigation --- */
+        /* --- Animated Navigation Bar --- */
         header {
             position: fixed;
             top: 0;
             width: 100%;
             z-index: 1000;
             background: var(--glass);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            animation: slideDown 0.8s ease;
+        }
+
+        @keyframes slideDown {
+            from { transform: translateY(-100%); }
+            to { transform: translateY(0); }
         }
 
         nav {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 1rem 5%;
+            padding: 1.2rem 5%;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
 
         .logo {
-            font-size: 1.5rem;
+            font-size: 1.6rem;
             font-weight: 800;
-            display: flex;
-            align-items: center;
-            gap: 8px;
+            letter-spacing: -1px;
         }
 
-        .logo span { color: var(--primary); }
+        .logo span { color: var(--primary); text-shadow: 0 0 15px var(--primary-glow); }
 
         .nav-right {
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 20px;
         }
 
-        /* --- Search Bar Styling --- */
+        /* --- Premium Search Bar --- */
         .search-container {
             position: relative;
         }
 
         #search-bar {
-            padding: 0.6rem 1rem;
-            padding-left: 2.5rem;
+            padding: 0.7rem 1.2rem 0.7rem 2.8rem;
             border-radius: 50px;
-            border: 1px solid rgba(0,0,0,0.1);
-            background: var(--card-bg);
+            border: 2px solid transparent;
+            background: var(--bg);
             color: var(--text);
             outline: none;
-            width: 200px;
-            transition: width 0.3s ease;
+            width: 220px;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         #search-bar:focus {
-            width: 280px;
+            width: 320px;
             border-color: var(--primary);
+            box-shadow: 0 0 20px var(--primary-glow);
         }
 
         .search-icon {
             position: absolute;
-            left: 12px;
+            left: 14px;
             top: 50%;
             transform: translateY(-50%);
-            opacity: 0.5;
+            opacity: 0.6;
         }
 
-        /* --- Theme Toggle --- */
-        #theme-toggle {
-            background: var(--card-bg);
-            border: 1px solid rgba(0,0,0,0.1);
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            cursor: pointer;
-            display: grid;
-            place-items: center;
-            font-size: 1.2rem;
-            box-shadow: var(--shadow);
-        }
-
-        /* --- Hero Section --- */
+        /* --- Hero Section with Entrance Animation --- */
         .hero {
-            padding: 160px 5% 60px;
+            padding: 180px 5% 80px;
             text-align: center;
-            max-width: 900px;
+            max-width: 1000px;
             margin: 0 auto;
+            animation: fadeIn 1.2s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .hero h2 {
-            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-size: clamp(2.5rem, 6vw, 4rem);
             font-weight: 800;
-            margin-bottom: 1rem;
-            letter-spacing: -1px;
+            margin-bottom: 1.5rem;
+            line-height: 1.1;
         }
 
-        /* --- Filter Pills --- */
+        /* --- Animated Filter Pills --- */
         .filters {
             display: flex;
             justify-content: center;
-            gap: 10px;
-            margin-bottom: 40px;
+            gap: 12px;
+            margin-bottom: 50px;
             flex-wrap: wrap;
         }
 
         .filter-btn {
-            padding: 8px 20px;
+            padding: 10px 24px;
             border-radius: 50px;
             border: none;
             background: var(--card-bg);
             color: var(--text);
-            font-weight: 600;
+            font-weight: 700;
             cursor: pointer;
             box-shadow: var(--shadow);
-            transition: all 0.2s;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .filter-btn:hover {
+            transform: translateY(-3px);
+            background: var(--primary);
+            color: white;
         }
 
         .filter-btn.active {
             background: var(--primary);
             color: white;
+            box-shadow: 0 10px 20px var(--primary-glow);
         }
 
-        /* --- Gallery Grid --- */
+        /* --- Immersive Gallery Grid --- */
         .gallery-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 30px;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 40px;
             padding: 0 5% 100px;
             max-width: 1400px;
             margin: 0 auto;
@@ -179,49 +183,57 @@
             overflow: hidden;
             box-shadow: var(--shadow);
             cursor: pointer;
-            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            position: relative;
+            transform: translateY(0);
+            transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
         }
 
         .card:hover {
-            transform: scale(1.03);
+            transform: translateY(-15px);
+            box-shadow: 0 30px 60px -12px rgba(0,0,0,0.25);
         }
 
         .card-img-wrapper {
             width: 100%;
-            height: 220px;
+            height: 260px;
             overflow: hidden;
+            position: relative;
         }
 
         .card img {
             width: 100%;
             height: 100%;
             object-fit: cover;
+            transition: transform 0.8s ease;
+        }
+
+        .card:hover img {
+            transform: scale(1.1);
         }
 
         .card-content {
-            padding: 20px;
+            padding: 25px;
         }
 
         .card-tag {
-            font-size: 0.7rem;
+            font-size: 0.75rem;
             text-transform: uppercase;
-            font-weight: 700;
+            font-weight: 800;
             color: var(--primary);
-            letter-spacing: 1px;
+            background: var(--primary-glow);
+            padding: 4px 12px;
+            border-radius: 50px;
+            display: inline-block;
+            margin-bottom: 12px;
         }
 
-        .card h3 {
-            margin: 5px 0 10px;
-            font-size: 1.4rem;
-        }
-
-        /* --- Modal --- */
+        /* --- Modern Modal --- */
         .modal {
             display: none;
             position: fixed;
             inset: 0;
-            background: rgba(0,0,0,0.8);
-            backdrop-filter: blur(8px);
+            background: rgba(0,0,0,0.85);
+            backdrop-filter: blur(10px);
             z-index: 2000;
             place-items: center;
             padding: 20px;
@@ -231,65 +243,79 @@
 
         .modal-content {
             background: var(--card-bg);
-            max-width: 800px;
+            max-width: 900px;
             width: 100%;
-            border-radius: 24px;
+            border-radius: 32px;
             overflow: hidden;
             position: relative;
-            animation: popIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            animation: modalScale 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
 
-        @keyframes popIn {
-            from { transform: scale(0.9); opacity: 0; }
-            to { transform: scale(1); opacity: 1; }
+        @keyframes modalScale {
+            from { transform: scale(0.8) translateY(40px); opacity: 0; }
+            to { transform: scale(1) translateY(0); opacity: 1; }
         }
 
         .close-btn {
             position: absolute;
-            top: 20px;
-            right: 20px;
-            background: rgba(0,0,0,0.5);
+            top: 25px;
+            right: 25px;
+            background: rgba(255,255,255,0.2);
+            backdrop-filter: blur(5px);
             color: white;
             border: none;
-            width: 40px;
-            height: 40px;
+            width: 45px;
+            height: 45px;
             border-radius: 50%;
             cursor: pointer;
-            font-size: 1.5rem;
+            font-size: 1.8rem;
+            z-index: 10;
         }
 
-        .modal-info { padding: 40px; }
+        .modal-info { padding: 50px; }
+
+        /* Scroll Progress Bar */
+        #progress {
+            position: fixed;
+            top: 0; left: 0; height: 4px;
+            background: var(--primary);
+            z-index: 1001;
+            width: 0%;
+        }
 
         @media (max-width: 600px) {
-            #search-bar { width: 120px; }
-            #search-bar:focus { width: 160px; }
-            .hero { padding-top: 120px; }
+            #search-bar { width: 40px; padding-left: 1.2rem; cursor: pointer; }
+            #search-bar:focus { width: 180px; padding-left: 2.8rem; }
+            .hero { padding-top: 130px; }
+            .gallery-grid { gap: 20px; }
         }
     </style>
 </head>
 <body>
 
+    <div id="progress"></div>
+
     <header>
         <nav>
-            <div class="logo">🌿 <span>Animal</span>Explorer</div>
+            <div class="logo">🌿 <span>Wildlife</span>Explorer</div>
             <div class="nav-right">
                 <div class="search-container">
                     <span class="search-icon">🔍</span>
-                    <input type="text" id="search-bar" placeholder="Search...">
+                    <input type="text" id="search-bar" placeholder="Find a species...">
                 </div>
-                <button id="theme-toggle" title="Toggle Dark Mode">🌙</button>
+                <button id="theme-toggle" title="Toggle Nature/Night Mode">🌙</button>
             </div>
         </nav>
     </header>
 
     <main>
         <section class="hero">
-            <h2>Experience the <span style="color:var(--primary)">Wild</span></h2>
-            <p>Explore high-definition wonders of the animal kingdom from every corner of the earth.</p>
+            <h2>Discover the <span style="color:var(--primary)">Untamed</span> World</h2>
+            <p>Journey into the heart of nature and meet the incredible creatures that share our planet.</p>
         </section>
 
         <div class="filters">
-            <button class="filter-btn active" data-filter="all">All Species</button>
+            <button class="filter-btn active" data-filter="all">All Creatures</button>
             <button class="filter-btn" data-filter="Mammal">Mammals</button>
             <button class="filter-btn" data-filter="Bird">Birds</button>
             <button class="filter-btn" data-filter="Reptile">Reptiles</button>
@@ -309,36 +335,44 @@
 
     <script>
         const animals = [
-            { name: "African Lion", type: "Mammal", habitat: "Savanna", info: "The king of beasts, known for its majestic mane and social pride structure.", img: "https://images.unsplash.com/photo-1546182990-dffeafbe841d?w=800" },
-            { name: "Mountain Gorilla", type: "Mammal", habitat: "Forests", info: "A gentle giant sharing 98% of human DNA, living in high-altitude clouds.", img: "https://images.unsplash.com/photo-1581491395704-7d630b55044f?w=800" },
-            { name: "Scarlet Macaw", type: "Bird", habitat: "Rainforest", info: "A burst of color in the canopy, these parrots are highly intelligent and social.", img: "https://images.unsplash.com/photo-1552728089-57bdde30eba3?w=800" },
-            { name: "Komodo Dragon", type: "Reptile", habitat: "Islands", info: "The world's largest lizard, a powerful apex predator from Indonesia.", img: "https://images.unsplash.com/photo-1545283454-32867493226a?w=800" },
-            { name: "Snow Leopard", type: "Mammal", habitat: "Mountains", info: "The 'Ghost of the Mountains', perfectly camouflaged in rocky, snowy terrain.", img: "https://images.unsplash.com/photo-1534193561958-40bfcd20ee4f?w=800" },
-            { name: "Bald Eagle", type: "Bird", habitat: "Coastlines", info: "A symbol of strength and freedom, with a massive wingspan and sharp vision.", img: "https://images.unsplash.com/photo-1611689342806-0863700ce1e4?w=800" }
+            { name: "African Lion", type: "Mammal", habitat: "Savanna", info: "The king of beasts, known for its majestic mane and social pride structure. They are the only cats that live in large groups.", img: "https://images.unsplash.com/photo-1546182990-dffeafbe841d?w=1000" },
+            { name: "Mountain Gorilla", type: "Mammal", habitat: "Cloud Forests", info: "A gentle giant sharing 98% of human DNA. They live in high-altitude forests and are known for their strong family bonds.", img: "https://images.unsplash.com/photo-1581491395704-7d630b55044f?w=1000" },
+            { name: "Scarlet Macaw", type: "Bird", habitat: "Rainforest", info: "A burst of color in the canopy. These parrots are highly intelligent, social, and can live up to 50 years in the wild.", img: "https://images.unsplash.com/photo-1552728089-57bdde30eba3?w=1000" },
+            { name: "Komodo Dragon", type: "Reptile", habitat: "Indonesian Islands", info: "The world's largest lizard. They are powerful apex predators with a keen sense of smell, able to track prey for miles.", img: "https://images.unsplash.com/photo-1545283454-32867493226a?w=1000" },
+            { name: "Snow Leopard", type: "Mammal", habitat: "Himalayas", info: "Known as the 'Ghost of the Mountains', they are master of camouflage and can leap up to 50 feet in a single bound.", img: "https://images.unsplash.com/photo-1534193561958-40bfcd20ee4f?w=1000" },
+            { name: "Bald Eagle", type: "Bird", habitat: "North American Coast", info: "A symbol of strength and vision. They build the largest nests of any North American bird, sometimes weighing over a ton!", img: "https://images.unsplash.com/photo-1611689342806-0863700ce1e4?w=1000" }
         ];
 
         const gallery = document.getElementById('gallery');
         const searchInput = document.getElementById('search-bar');
         const themeToggle = document.getElementById('theme-toggle');
         const modal = document.getElementById('modal');
+        const progressBar = document.getElementById('progress');
 
-        // Render function
+        // Scroll Progress logic
+        window.onscroll = () => {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            progressBar.style.width = scrolled + "%";
+        };
+
+        // Render function with staggered animation delay
         function render(data) {
             gallery.innerHTML = data.map((animal, index) => `
-                <div class="card" onclick="openModal(${index})">
+                <div class="card" onclick="openModal(${index})" style="animation: fadeIn 0.5s ease backwards ${index * 0.1}s">
                     <div class="card-img-wrapper">
                         <img src="${animal.img}" alt="${animal.name}" loading="lazy">
                     </div>
                     <div class="card-content">
                         <span class="card-tag">${animal.type}</span>
-                        <h3>${animal.name}</h3>
-                        <p style="font-size: 0.9rem; opacity: 0.7;">Click to explore habitat & facts →</p>
+                        <h3 style="font-size: 1.6rem; margin-bottom: 8px;">${animal.name}</h3>
+                        <p style="font-size: 0.95rem; opacity: 0.6; font-weight: 500;">View Wildlife Profile →</p>
                     </div>
                 </div>
             `).join('');
         }
 
-        // Filtering & Searching
         function updateGallery() {
             const searchTerm = searchInput.value.toLowerCase();
             const activeFilter = document.querySelector('.filter-btn.active').dataset.filter;
@@ -361,15 +395,22 @@
             });
         });
 
-        // Modal Logic
         window.openModal = (i) => {
             const a = animals[i];
             document.getElementById('modal-body').innerHTML = `
-                <img src="${a.img}" style="width:100%; max-height:400px; object-fit:cover;">
+                <div style="position:relative">
+                    <img src="${a.img}" style="width:100%; max-height:450px; object-fit:cover;">
+                    <div style="position:absolute; bottom:0; left:0; right:0; padding:40px; background: linear-gradient(transparent, rgba(0,0,0,0.8)); color:white">
+                        <span class="card-tag" style="background:var(--primary)">${a.type}</span>
+                        <h2 style="font-size:3rem; margin-top:10px;">${a.name}</h2>
+                    </div>
+                </div>
                 <div class="modal-info">
-                    <span class="card-tag">${a.type} • ${a.habitat}</span>
-                    <h2 style="font-size:2.5rem; margin: 10px 0;">${a.name}</h2>
-                    <p style="font-size:1.1rem; opacity:0.8;">${a.info}</p>
+                    <div style="display:flex; gap:30px; margin-bottom:20px;">
+                        <div><p style="opacity:0.6; font-size:0.8rem; font-weight:800; text-transform:uppercase">Habitat</p><p style="font-weight:700">${a.habitat}</p></div>
+                        <div><p style="opacity:0.6; font-size:0.8rem; font-weight:800; text-transform:uppercase">Status</p><p style="font-weight:700; color:var(--primary)">Protected</p></div>
+                    </div>
+                    <p style="font-size:1.2rem; line-height:1.8; opacity:0.9;">${a.info}</p>
                 </div>
             `;
             modal.classList.add('active');
@@ -378,7 +419,6 @@
         document.querySelector('.close-btn').onclick = () => modal.classList.remove('active');
         window.onclick = (e) => { if(e.target === modal) modal.classList.remove('active'); }
 
-        // Theme Toggle Logic
         themeToggle.addEventListener('click', () => {
             const isDark = document.body.hasAttribute('data-theme');
             if (isDark) {
@@ -390,7 +430,6 @@
             }
         });
 
-        // Start
         render(animals);
     </script>
 </body>
