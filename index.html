@@ -1,75 +1,51 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>WildLife Wonders</title>
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WildLife Wonders | Explore Nature</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <header>
-    <nav>
-      <h1 class="logo">🐾 WildLife Wonders</h1>
-      <ul class="nav-links">
-        <li><a href="#home">Home</a></li>
-        <li><a href="#gallery">Gallery</a></li>
-        <li><a href="#about">About</a></li>
-        <li><a href="#contact">Contact</a></li>
-      </ul>
-    </nav>
-  </header>
+    <header class="glass-nav">
+        <nav>
+            <div class="logo">🐾 <span>WildLife</span>Wonders</div>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#gallery">Gallery</a></li>
+                <li><a href="#about">About</a></li>
+                <button id="theme-toggle" aria-label="Toggle Dark Mode">🌙</button>
+            </ul>
+        </nav>
+    </header>
 
-  <main>
-    <section id="home" class="hero">
-      <div class="hero-content">
-        <h2>Discover the Beauty of Wildlife</h2>
-        <p>Explore stunning animals from around the world.</p>
-        <button class="cta-btn" onclick="location.href='#gallery'">See Gallery</button>
-      </div>
-    </section>
+    <main>
+        <section id="home" class="hero">
+            <div class="hero-content">
+                <h1 class="reveal-text">Discover the <span class="highlight">Untamed</span> Beauty</h1>
+                <p>An immersive journey through the world's most incredible habitats.</p>
+                <a href="#gallery" class="cta-btn">Start Exploring</a>
+            </div>
+        </section>
 
-    <section id="gallery" class="gallery">
-      <h2>Animal Gallery</h2>
-      <div class="gallery-grid">
-        <div class="card">
-          <img src="images/lion.jpg" alt="Lion" loading="lazy">
-          <h3>Lion</h3>
-          <p>King of the jungle</p>
-        </div>
-        <div class="card">
-          <img src="images/elephant.jpg" alt="Elephant" loading="lazy">
-          <h3>Elephant</h3>
-          <p>Gentle giant</p>
-        </div>
-        <div class="card">
-          <img src="images/dolphin.jpg" alt="Dolphin" loading="lazy">
-          <h3>Dolphin</h3>
-          <p>Intelligent and playful</p>
-        </div>
-        <div class="card">
-          <img src="images/parrot.jpg" alt="Parrot" loading="lazy">
-          <h3>Parrot</h3>
-          <p>Colorful talker</p>
-        </div>
-      </div>
-    </section>
+        <section id="gallery" class="gallery">
+            <div class="section-header">
+                <h2>Animal Gallery</h2>
+                <div class="filter-bar">
+                    <button class="filter-btn active" data-filter="all">All</button>
+                    <button class="filter-btn" data-filter="mammal">Mammals</button>
+                    <button class="filter-btn" data-filter="bird">Birds</button>
+                </div>
+            </div>
+            <div class="gallery-grid" id="animal-container"></div>
+        </section>
+    </main>
 
-    <section id="about" class="about">
-      <h2>About Us</h2>
-      <p>We are passionate about wildlife conservation and love sharing the beauty of animals through photography and stories.</p>
-    </section>
+    <footer>
+        <p>&copy; 2026 WildLife Wonders. Designed for Conservation.</p>
+    </footer>
 
-    <section id="contact" class="contact">
-      <h2>Contact Us</h2>
-      <p>Email: hello@wildlifewonders.com</p>
-      <p>Follow us on social media!</p>
-    </section>
-  </main>
-
-  <footer>
-    <p>&copy; 2025 WildLife Wonders. All rights reserved.</p>
-  </footer>
-
-  <script src="script.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
