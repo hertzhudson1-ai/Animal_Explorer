@@ -49,7 +49,7 @@
             display: flex; justify-content: space-between; align-items: center;
         }
 
-        .logo { font-size: 1.5rem; font-weight: 800; }
+        .logo { font-size: 1.5rem; font-weight: 800; display: flex; align-items: center; gap: 8px; }
         .logo span { color: var(--primary); }
 
         .search-container { position: relative; }
@@ -92,8 +92,55 @@
         }
         .modal.active { display: grid; }
         .modal-content {
-            background: var(--card-bg); max-width: 800px; width: 100%;
-            border-radius: 24px; overflow: hidden; position: relative;
+            background: var(--card-bg); max-width: 850px; width: 100%;
+            border-radius: 32px; overflow: hidden; position: relative;
+            max-height: 90vh; overflow-y: auto;
+        }
+
+        .toolkit-container {
+            margin-top: 25px;
+            padding: 20px;
+            background: var(--bg);
+            border-radius: 20px;
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .toolkit-title {
+            font-size: 0.9rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--primary);
+        }
+
+        .resource-links {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 12px;
+        }
+
+        .resource-btn {
+            padding: 12px 16px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.2s ease;
+            background: var(--card-bg);
+            border: 1px solid rgba(0,0,0,0.1);
+            color: var(--text);
+        }
+
+        .resource-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            border-color: var(--primary);
         }
 
         #ai-toggle {
@@ -111,30 +158,30 @@
         }
 
         #ai-chat-window {
-            position: fixed; bottom: 110px; right: 30px; width: 400px; height: 500px;
-            background: var(--card-bg); border-radius: 20px; box-shadow: var(--shadow);
+            position: fixed; bottom: 110px; right: 30px; width: 420px; height: 550px;
+            background: var(--card-bg); border-radius: 24px; box-shadow: var(--shadow);
             z-index: 998; display: none; flex-direction: column; overflow: hidden;
             border: 1px solid rgba(255,255,255,0.1);
         }
         #ai-chat-window.active { display: flex; }
 
-        .chat-header { padding: 15px; background: var(--primary); color: white; display: flex; justify-content: space-between; }
-        .chat-messages { flex: 1; padding: 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; }
-        .message { padding: 10px 14px; border-radius: 15px; font-size: 0.9rem; max-width: 85%; }
-        .message.user { align-self: flex-end; background: var(--primary); color: white; }
-        .message.ai { align-self: flex-start; background: var(--bg); }
+        .chat-header { padding: 18px; background: var(--primary); color: white; display: flex; justify-content: space-between; align-items: center; }
+        .chat-messages { flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 15px; }
+        .message { padding: 12px 16px; border-radius: 18px; font-size: 0.95rem; max-width: 85%; line-height: 1.5; }
+        .message.user { align-self: flex-end; background: var(--primary); color: white; border-bottom-right-radius: 4px; }
+        .message.ai { align-self: flex-start; background: var(--bg); border-bottom-left-radius: 4px; border: 1px solid rgba(0,0,0,0.05); }
 
-        .sources { font-size: 0.7rem; margin-top: 5px; opacity: 0.7; border-top: 1px solid rgba(0,0,0,0.1); padding-top: 3px; }
-        .chat-input-area { padding: 15px; display: flex; gap: 10px; border-top: 1px solid rgba(0,0,0,0.05); }
-        #chat-input { flex: 1; padding: 10px; border-radius: 20px; border: 1px solid rgba(0,0,0,0.1); outline: none; background: var(--bg); color: var(--text); }
-        #send-chat { background: var(--primary); color: white; border: none; width: 40px; height: 40px; border-radius: 50%; cursor: pointer; }
+        .sources { font-size: 0.75rem; margin-top: 10px; opacity: 0.8; border-top: 1px dotted rgba(0,0,0,0.2); padding-top: 8px; }
+        .chat-input-area { padding: 18px; display: flex; gap: 12px; border-top: 1px solid rgba(0,0,0,0.05); background: var(--card-bg); }
+        #chat-input { flex: 1; padding: 12px 18px; border-radius: 50px; border: 1px solid rgba(0,0,0,0.1); outline: none; background: var(--bg); color: var(--text); }
+        #send-chat { background: var(--primary); color: white; border: none; width: 45px; height: 45px; border-radius: 50%; cursor: pointer; display: grid; place-items: center; }
     </style>
 </head>
 <body>
 
     <header>
         <nav>
-            <div class="logo">🌏 <span>Global</span>Wildlife</div>
+            <div class="logo">🌿 <span>Wildlife</span>Explorer</div>
             <div style="display:flex; gap:15px; align-items:center;">
                 <div class="search-container">
                     <input type="text" id="search-bar" placeholder="Search creatures...">
@@ -146,15 +193,16 @@
 
     <main>
         <div class="hero">
-            <h1 style="font-size: 2.5rem; margin-bottom: 10px;">Wildlife Intelligence Hub</h1>
-            <p>Accurate, real-time animal data from sources worldwide.</p>
+            <h1 style="font-size: 2.8rem; font-weight: 800; margin-bottom: 15px;">Discover & Learn</h1>
+            <p style="font-size: 1.1rem; opacity: 0.8; max-width: 600px; margin: 0 auto;">Expert biological data, real-time research links, and AI-powered homework assistance for students.</p>
         </div>
 
         <div class="filters">
-            <button class="filter-btn active" data-filter="all">All Species</button>
+            <button class="filter-btn active" data-filter="all">Worldwide Mix</button>
             <button class="filter-btn" data-filter="Mammal">Mammals</button>
             <button class="filter-btn" data-filter="Marine">Marine</button>
             <button class="filter-btn" data-filter="Bird">Birds</button>
+            <button class="filter-btn" data-filter="Reptile">Reptiles</button>
         </div>
 
         <section id="gallery" class="gallery-grid"></section>
@@ -162,7 +210,7 @@
 
     <div id="modal" class="modal">
         <div class="modal-content">
-            <button id="close-modal" style="position:absolute; top:15px; right:15px; width:35px; height:35px; border-radius:50%; border:none; background:rgba(0,0,0,0.5); color:white; cursor:pointer;">&times;</button>
+            <button id="close-modal" style="position:absolute; top:20px; right:20px; width:40px; height:40px; border-radius:50%; border:none; background:rgba(0,0,0,0.5); color:white; cursor:pointer; z-index:100; font-size: 1.2rem;">&times;</button>
             <div id="modal-body"></div>
         </div>
     </div>
@@ -170,26 +218,64 @@
     <button id="ai-toggle">🤖</button>
     <div id="ai-chat-window">
         <div class="chat-header">
-            <span>Grounded Research AI</span>
-            <button id="close-chat" style="background:none; border:none; color:white; cursor:pointer;">&times;</button>
+            <div style="display:flex; flex-direction:column;">
+                <span style="font-weight:800; font-size: 1rem;">Homework & Research AI</span>
+                <span style="font-size: 0.7rem; opacity: 0.9;">Safe educational assistant</span>
+            </div>
+            <button id="close-chat" style="background:none; border:none; color:white; cursor:pointer; font-size: 1.2rem;">&times;</button>
         </div>
         <div class="chat-messages" id="chat-messages">
-            <div class="message ai">I am connected to worldwide data. Ask me anything about specific species or conservation efforts!</div>
+            <div class="message ai">👋 Hello! I am your personal wildlife tutor. I can help you find facts, explain biology terms, or guide you through your animal-related school exercises. How can I help today?</div>
         </div>
-        <div id="ai-loading" style="display:none; padding:10px 15px; font-size:0.8rem; font-style:italic;">Searching worldwide databases...</div>
+        <div id="ai-loading" style="display:none; padding:10px 20px; font-size:0.8rem; font-style:italic; color: var(--primary);">🌐 Accessing global research databases...</div>
         <div class="chat-input-area">
-            <input type="text" id="chat-input" placeholder="Ask about an animal...">
+            <input type="text" id="chat-input" placeholder="Type a question or exercise...">
             <button id="send-chat">➔</button>
         </div>
     </div>
 
     <script>
         const animals = [
-            { name: "Polar Bear", type: "Mammal", habitat: "Arctic Circle", info: "The world's largest land carnivore. They are actually classified as marine mammals because they spend most of their lives on the sea ice.", img: "https://images.unsplash.com/photo-1589656966895-2f33e7653819?w=800", vid: "as7S8S7_XFw" },
-            { name: "Great White Shark", type: "Marine", habitat: "Global Coastal Waters", info: "Apex predators with an incredible sense of smell. They can detect one drop of blood in 100 liters of water.", img: "https://images.unsplash.com/photo-1560273074-c9314a2745b0?w=800", vid: "9S_pX6B_Qos" },
-            { name: "Bald Eagle", type: "Bird", habitat: "North America", info: "A symbol of strength. These birds build the largest nests of any North American bird, up to 4 meters deep.", img: "https://images.unsplash.com/photo-1470116945706-e6bf5d5a53ca?w=800", vid: "pM6O7Z1S7Yc" },
-            { name: "Komodo Dragon", type: "Reptile", habitat: "Indonesia", info: "The heaviest lizard on Earth. They use their sense of smell to detect carrion from up to 9.5 kilometers away.", img: "https://images.unsplash.com/photo-1545063001-38297b83327d?w=800", vid: "27E4vN9S6_0" },
-            { name: "Blue Whale", type: "Marine", habitat: "All Oceans", info: "The largest animal to ever exist. A blue whale's tongue alone can weigh as much as an entire elephant.", img: "https://images.unsplash.com/photo-1568430462989-44163eb1752f?w=800", vid: "bgiPTUy2RqI" }
+            { 
+                name: "Polar Bear", type: "Mammal", habitat: "Arctic Circle", 
+                info: "The world's largest land carnivore. They are actually classified as marine mammals because they spend most of their lives on the sea ice.", 
+                img: "https://images.unsplash.com/photo-1589656966895-2f33e7653819?w=800", vid: "as7S8S7_XFw", 
+                wiki: "https://en.wikipedia.org/wiki/Polar_bear", 
+                natgeo: "https://www.nationalgeographic.com/animals/mammals/facts/polar-bear",
+                britannica: "https://www.britannica.com/animal/polar-bear"
+            },
+            { 
+                name: "Great White Shark", type: "Marine", habitat: "Global Coastal Waters", 
+                info: "Apex predators with an incredible sense of smell. They can detect one drop of blood in 100 liters of water.", 
+                img: "https://images.unsplash.com/photo-1560273074-c9314a2745b0?w=800", vid: "9S_pX6B_Qos", 
+                wiki: "https://en.wikipedia.org/wiki/Great_white_shark", 
+                natgeo: "https://www.nationalgeographic.com/animals/fish/facts/great-white-shark",
+                britannica: "https://www.britannica.com/animal/white-shark"
+            },
+            { 
+                name: "Bald Eagle", type: "Bird", habitat: "North America", 
+                info: "A symbol of strength. These birds build the largest nests of any North American bird, up to 4 meters deep.", 
+                img: "https://images.unsplash.com/photo-1470116945706-e6bf5d5a53ca?w=800", vid: "pM6O7Z1S7Yc", 
+                wiki: "https://en.wikipedia.org/wiki/Bald_eagle", 
+                natgeo: "https://www.nationalgeographic.com/animals/birds/facts/bald-eagle",
+                britannica: "https://www.britannica.com/animal/bald-eagle"
+            },
+            { 
+                name: "Komodo Dragon", type: "Reptile", habitat: "Indonesia", 
+                info: "The heaviest lizard on Earth. They use their sense of smell to detect carrion from up to 9.5 kilometers away.", 
+                img: "https://images.unsplash.com/photo-1545063001-38297b83327d?w=800", vid: "27E4vN9S6_0", 
+                wiki: "https://en.wikipedia.org/wiki/Komodo_dragon", 
+                natgeo: "https://www.nationalgeographic.com/animals/reptiles/facts/komodo-dragon",
+                britannica: "https://www.britannica.com/animal/Komodo-dragon"
+            },
+            { 
+                name: "Blue Whale", type: "Marine", habitat: "All Oceans", 
+                info: "The largest animal to ever exist. A blue whale's tongue alone can weigh as much as an entire elephant.", 
+                img: "https://images.unsplash.com/photo-1568430462989-44163eb1752f?w=800", vid: "bgiPTUy2RqI", 
+                wiki: "https://en.wikipedia.org/wiki/Blue_whale", 
+                natgeo: "https://www.nationalgeographic.com/animals/mammals/facts/blue-whale",
+                britannica: "https://www.britannica.com/animal/blue-whale"
+            }
         ];
 
         function render() {
@@ -201,9 +287,11 @@
                 <div class="card" onclick="openModal(${animals.indexOf(a)})">
                     <img src="${a.img}" loading="lazy">
                     <div class="card-content">
-                        <small style="color:var(--primary); font-weight:800;">${a.type.toUpperCase()}</small>
-                        <h3>${a.name}</h3>
-                        <p style="font-size:0.8rem; opacity:0.7;">Click for live video & facts</p>
+                        <small style="color:var(--primary); font-weight:800; letter-spacing: 1px;">${a.type.toUpperCase()}</small>
+                        <h3 style="margin: 5px 0 10px 0;">${a.name}</h3>
+                        <div style="display:flex; align-items:center; gap:5px; font-size:0.8rem; opacity:0.7; font-weight:600;">
+                            <span>🔎</span> Explore Resources
+                        </div>
                     </div>
                 </div>
             `).join('');
@@ -213,25 +301,40 @@
             const a = animals[idx];
             document.getElementById('modal-body').innerHTML = `
                 <div style="position:relative; padding-top:56.25%;">
-                    <iframe src="https://www.youtube.com/embed/${a.vid}?autoplay=1" style="position:absolute; top:0; left:0; width:100%; height:100%; border:0;" allowfullscreen></iframe>
+                    <iframe src="https://www.youtube.com/embed/${a.vid}?autoplay=1&rel=0" style="position:absolute; top:0; left:0; width:100%; height:100%; border:0;" allowfullscreen></iframe>
                 </div>
-                <div style="padding:25px;">
-                    <h2>${a.name}</h2>
-                    <p style="margin:10px 0;">${a.info}</p>
-                    <p><strong>Habitat:</strong> ${a.habitat}</p>
+                <div style="padding:35px;">
+                    <h2 style="font-size: 2.2rem; font-weight: 800; margin-bottom: 10px;">${a.name}</h2>
+                    <p style="margin:15px 0; font-size: 1.1rem; line-height: 1.7; opacity: 0.9;">${a.info}</p>
+                    <p style="background:var(--primary-glow); padding: 10px 20px; border-radius: 12px; display: inline-block;"><strong>Habitat:</strong> ${a.habitat}</p>
+                    
+                    <div class="toolkit-container">
+                        <div class="toolkit-title">📚 Research Toolkit</div>
+                        <div class="resource-links">
+                            <a href="${a.wiki}" target="_blank" class="resource-btn">
+                                🌐 Wikipedia Article
+                            </a>
+                            <a href="${a.natgeo}" target="_blank" class="resource-btn">
+                                🦒 National Geographic
+                            </a>
+                            <a href="${a.britannica}" target="_blank" class="resource-btn">
+                                📖 Encyclopedia Britannica
+                            </a>
+                        </div>
+                    </div>
                 </div>
             `;
             document.getElementById('modal').classList.add('active');
         };
 
-        // --- AI FETCH LOGIC WITH RETRIES ---
+        // --- AI FETCH LOGIC WITH RETRIES & GROUNDING ---
         async function fetchAI(query) {
             const apiKey = ""; 
             const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
             
             const payload = {
                 contents: [{ parts: [{ text: query }] }],
-                systemInstruction: { parts: [{ text: "You are a professional wildlife expert. Provide accurate, real-time facts. Use search grounding for every response." }] },
+                systemInstruction: { parts: [{ text: "You are a friendly, safe, and professional wildlife biologist and tutor for students under 18. Your goal is to provide age-appropriate responses that are clean, healthy, and educational. When helping with school exercises, break down answers into logical, step-by-step points. Always cite your sources from worldwide research. Use search grounding for high accuracy." }] },
                 tools: [{ "google_search": {} }]
             };
 
@@ -244,7 +347,7 @@
                         body: JSON.stringify(payload)
                     });
                     
-                    if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+                    if (!response.ok) throw new Error(`HTTP ${response.status}`);
                     
                     const data = await response.json();
                     const text = data.candidates?.[0]?.content?.parts?.[0]?.text;
@@ -256,8 +359,7 @@
                     return { text, sources };
                 } catch (e) {
                     if (i === retries - 1) throw e;
-                    const wait = Math.pow(2, i) * 1000;
-                    await new Promise(r => setTimeout(r, wait));
+                    await new Promise(r => setTimeout(r, Math.pow(2, i) * 1000));
                 }
             }
         }
@@ -276,31 +378,35 @@
 
             try {
                 const res = await fetchAI(msg);
-                let sourceHtml = res.sources.length ? `<div class="sources">Sources: ${res.sources.slice(0,2).map(s => `<a href="${s.url}" target="_blank" style="color:var(--primary);">${s.title}</a>`).join(', ')}</div>` : "";
+                let sourceHtml = res.sources.length ? `<div class="sources">🌍 Grounded Research: ${res.sources.slice(0,3).map(s => `<a href="${s.url}" target="_blank" style="color:var(--primary); text-decoration: none; font-weight: 600;">${s.title}</a>`).join(' • ')}</div>` : "";
                 chat.innerHTML += `<div class="message ai">${res.text}${sourceHtml}</div>`;
             } catch (err) {
-                chat.innerHTML += `<div class="message ai" style="color:red;">Global servers busy. Please try your request once more.</div>`;
+                chat.innerHTML += `<div class="message ai" style="color:#e74c3c;">Connection to biology database lost. Please retry your request.</div>`;
             } finally {
                 document.getElementById('ai-loading').style.display = 'none';
                 chat.scrollTop = chat.scrollHeight;
             }
         }
 
-        // Events
+        // --- EVENTS ---
         document.getElementById('send-chat').onclick = handleSend;
         document.getElementById('chat-input').onkeypress = (e) => { if(e.key === 'Enter') handleSend(); };
         document.getElementById('search-bar').oninput = render;
+        
         document.querySelectorAll('.filter-btn').forEach(btn => btn.onclick = () => {
             document.querySelector('.filter-btn.active').classList.remove('active');
             btn.classList.add('active');
             render();
         });
+
         document.getElementById('ai-toggle').onclick = () => document.getElementById('ai-chat-window').classList.toggle('active');
         document.getElementById('close-chat').onclick = () => document.getElementById('ai-chat-window').classList.remove('active');
+        
         document.getElementById('close-modal').onclick = () => {
             document.getElementById('modal').classList.remove('active');
             document.getElementById('modal-body').innerHTML = '';
         };
+
         document.getElementById('theme-toggle').onclick = () => {
             const isDark = document.body.hasAttribute('data-theme');
             isDark ? document.body.removeAttribute('data-theme') : document.body.setAttribute('data-theme', 'dark');
