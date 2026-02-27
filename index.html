@@ -97,6 +97,31 @@
             max-height: 90vh; overflow-y: auto;
         }
 
+        .vision-panel {
+            margin-top: 20px;
+            padding: 15px;
+            background: rgba(46, 204, 113, 0.05);
+            border-left: 4px solid var(--primary);
+            border-radius: 12px;
+        }
+
+        .vision-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+            font-weight: 800;
+            font-size: 0.9rem;
+            color: var(--primary);
+        }
+
+        .vision-content {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: var(--text);
+            opacity: 0.9;
+        }
+
         .toolkit-container {
             margin-top: 25px;
             padding: 20px;
@@ -219,7 +244,7 @@
     <div id="ai-chat-window">
         <div class="chat-header">
             <div style="display:flex; flex-direction:column;">
-                <span style="font-weight:800; font-size: 1rem;">Homework & Research AI</span>
+                <span style="font-weight:800; font-size: 1rem;">Wildlife Tutor AI</span>
                 <span style="font-size: 0.7rem; opacity: 0.9;">Safe educational assistant</span>
             </div>
             <button id="close-chat" style="background:none; border:none; color:white; cursor:pointer; font-size: 1.2rem;">&times;</button>
@@ -227,9 +252,9 @@
         <div class="chat-messages" id="chat-messages">
             <div class="message ai">👋 Hello! I am your personal wildlife tutor. I can help you find facts, explain biology terms, or guide you through your animal-related school exercises. How can I help today?</div>
         </div>
-        <div id="ai-loading" style="display:none; padding:10px 20px; font-size:0.8rem; font-style:italic; color: var(--primary);">🌐 Accessing global research databases...</div>
+        <div id="ai-loading" style="display:none; padding:10px 20px; font-size:0.8rem; font-style:italic; color: var(--primary);">🌍 Accessing global research databases...</div>
         <div class="chat-input-area">
-            <input type="text" id="chat-input" placeholder="Type a question or exercise...">
+            <input type="text" id="chat-input" placeholder="Ask a biology question...">
             <button id="send-chat">➔</button>
         </div>
     </div>
@@ -242,7 +267,8 @@
                 img: "https://images.unsplash.com/photo-1589656966895-2f33e7653819?w=800", vid: "as7S8S7_XFw", 
                 wiki: "https://en.wikipedia.org/wiki/Polar_bear", 
                 natgeo: "https://www.nationalgeographic.com/animals/mammals/facts/polar-bear",
-                britannica: "https://www.britannica.com/animal/polar-bear"
+                britannica: "https://www.britannica.com/animal/polar-bear",
+                visionSummary: "Remote sensor cameras capture the Polar Bear's incredible aquatic agility. While they look bulky on land, their streamlined bodies allow them to swim for days across open water. They possess a thick layer of blubber (up to 4 inches) that keeps them warm in freezing temperatures."
             },
             { 
                 name: "Great White Shark", type: "Marine", habitat: "Global Coastal Waters", 
@@ -250,7 +276,8 @@
                 img: "https://images.unsplash.com/photo-1560273074-c9314a2745b0?w=800", vid: "9S_pX6B_Qos", 
                 wiki: "https://en.wikipedia.org/wiki/Great_white_shark", 
                 natgeo: "https://www.nationalgeographic.com/animals/fish/facts/great-white-shark",
-                britannica: "https://www.britannica.com/animal/white-shark"
+                britannica: "https://www.britannica.com/animal/white-shark",
+                visionSummary: "Deep-sea footage highlights the Great White's 'Ampullae of Lorenzini'—electro-receptors that detect the heartbeat of prey even when hidden in the sand. They are highly intelligent social hunters, often using specific rituals to communicate dominance without fighting."
             },
             { 
                 name: "Bald Eagle", type: "Bird", habitat: "North America", 
@@ -258,23 +285,8 @@
                 img: "https://images.unsplash.com/photo-1470116945706-e6bf5d5a53ca?w=800", vid: "pM6O7Z1S7Yc", 
                 wiki: "https://en.wikipedia.org/wiki/Bald_eagle", 
                 natgeo: "https://www.nationalgeographic.com/animals/birds/facts/bald-eagle",
-                britannica: "https://www.britannica.com/animal/bald-eagle"
-            },
-            { 
-                name: "Komodo Dragon", type: "Reptile", habitat: "Indonesia", 
-                info: "The heaviest lizard on Earth. They use their sense of smell to detect carrion from up to 9.5 kilometers away.", 
-                img: "https://images.unsplash.com/photo-1545063001-38297b83327d?w=800", vid: "27E4vN9S6_0", 
-                wiki: "https://en.wikipedia.org/wiki/Komodo_dragon", 
-                natgeo: "https://www.nationalgeographic.com/animals/reptiles/facts/komodo-dragon",
-                britannica: "https://www.britannica.com/animal/Komodo-dragon"
-            },
-            { 
-                name: "Blue Whale", type: "Marine", habitat: "All Oceans", 
-                info: "The largest animal to ever exist. A blue whale's tongue alone can weigh as much as an entire elephant.", 
-                img: "https://images.unsplash.com/photo-1568430462989-44163eb1752f?w=800", vid: "bgiPTUy2RqI", 
-                wiki: "https://en.wikipedia.org/wiki/Blue_whale", 
-                natgeo: "https://www.nationalgeographic.com/animals/mammals/facts/blue-whale",
-                britannica: "https://www.britannica.com/animal/blue-whale"
+                britannica: "https://www.britannica.com/animal/bald-eagle",
+                visionSummary: "Thermal imaging shows how eagles use rising air currents (thermals) to soar for hours with minimal energy. Their eyesight is four times sharper than a human with 20/20 vision, allowing them to spot a rabbit from several miles away."
             }
         ];
 
@@ -306,20 +318,18 @@
                 <div style="padding:35px;">
                     <h2 style="font-size: 2.2rem; font-weight: 800; margin-bottom: 10px;">${a.name}</h2>
                     <p style="margin:15px 0; font-size: 1.1rem; line-height: 1.7; opacity: 0.9;">${a.info}</p>
-                    <p style="background:var(--primary-glow); padding: 10px 20px; border-radius: 12px; display: inline-block;"><strong>Habitat:</strong> ${a.habitat}</p>
                     
+                    <div class="vision-panel">
+                        <div class="vision-header">🎬 YouTube Vision Insight</div>
+                        <div class="vision-content">${a.visionSummary}</div>
+                    </div>
+
                     <div class="toolkit-container">
                         <div class="toolkit-title">📚 Research Toolkit</div>
                         <div class="resource-links">
-                            <a href="${a.wiki}" target="_blank" class="resource-btn">
-                                🌐 Wikipedia Article
-                            </a>
-                            <a href="${a.natgeo}" target="_blank" class="resource-btn">
-                                🦒 National Geographic
-                            </a>
-                            <a href="${a.britannica}" target="_blank" class="resource-btn">
-                                📖 Encyclopedia Britannica
-                            </a>
+                            <a href="${a.wiki}" target="_blank" class="resource-btn">🌐 Wikipedia</a>
+                            <a href="${a.natgeo}" target="_blank" class="resource-btn">🦒 Nat Geo</a>
+                            <a href="${a.britannica}" target="_blank" class="resource-btn">📖 Britannica</a>
                         </div>
                     </div>
                 </div>
@@ -327,72 +337,80 @@
             document.getElementById('modal').classList.add('active');
         };
 
-        // --- AI FETCH LOGIC WITH RETRIES & GROUNDING ---
+        // --- GEMINI API INTEGRATION ---
         async function fetchAI(query) {
-            const apiKey = ""; 
-            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
+            const apiKey = ""; // Provided by environment at runtime
+            const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
             
             const payload = {
                 contents: [{ parts: [{ text: query }] }],
-                systemInstruction: { parts: [{ text: "You are a friendly, safe, and professional wildlife biologist and tutor for students under 18. Your goal is to provide age-appropriate responses that are clean, healthy, and educational. When helping with school exercises, break down answers into logical, step-by-step points. Always cite your sources from worldwide research. Use search grounding for high accuracy." }] },
+                systemInstruction: { 
+                    parts: [{ text: "You are a professional wildlife biology tutor for students. Provide age-appropriate, clean, and educational responses. Use a step-by-step approach for biology exercises. Use Google Search grounding to cite sources." }] 
+                },
                 tools: [{ "google_search": {} }]
             };
 
-            const retries = 5;
-            for (let i = 0; i < retries; i++) {
+            // Mandatory Exponential Backoff (5 Retries)
+            const delays = [1000, 2000, 4000, 8000, 16000];
+            for (let i = 0; i <= 5; i++) {
                 try {
-                    const response = await fetch(url, {
+                    const response = await fetch(endpoint, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify(payload)
                     });
                     
-                    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+                    if (!response.ok) throw new Error('API request failed');
                     
-                    const data = await response.json();
-                    const text = data.candidates?.[0]?.content?.parts?.[0]?.text;
-                    const sources = data.candidates?.[0]?.groundingMetadata?.groundingAttributions?.map(s => ({
-                        title: s.web?.title,
-                        url: s.web?.uri
+                    const result = await response.json();
+                    const text = result.candidates?.[0]?.content?.parts?.[0]?.text;
+                    const sources = result.candidates?.[0]?.groundingMetadata?.groundingAttributions?.map(a => ({
+                        uri: a.web?.uri,
+                        title: a.web?.title
                     })) || [];
                     
                     return { text, sources };
-                } catch (e) {
-                    if (i === retries - 1) throw e;
-                    await new Promise(r => setTimeout(r, Math.pow(2, i) * 1000));
+                } catch (error) {
+                    if (i === 5) throw error;
+                    await new Promise(resolve => setTimeout(resolve, delays[i]));
                 }
             }
         }
 
         async function handleSend() {
             const input = document.getElementById('chat-input');
-            const msg = input.value.trim();
-            if (!msg) return;
+            const userMsg = input.value.trim();
+            if (!userMsg) return;
 
-            const chat = document.getElementById('chat-messages');
-            chat.innerHTML += `<div class="message user">${msg}</div>`;
+            const chatMessages = document.getElementById('chat-messages');
+            chatMessages.innerHTML += `<div class="message user">${userMsg}</div>`;
             input.value = '';
-            chat.scrollTop = chat.scrollHeight;
+            chatMessages.scrollTop = chatMessages.scrollHeight;
 
             document.getElementById('ai-loading').style.display = 'block';
 
             try {
-                const res = await fetchAI(msg);
-                let sourceHtml = res.sources.length ? `<div class="sources">🌍 Grounded Research: ${res.sources.slice(0,3).map(s => `<a href="${s.url}" target="_blank" style="color:var(--primary); text-decoration: none; font-weight: 600;">${s.title}</a>`).join(' • ')}</div>` : "";
-                chat.innerHTML += `<div class="message ai">${res.text}${sourceHtml}</div>`;
+                const response = await fetchAI(userMsg);
+                let sourceHtml = "";
+                if (response.sources.length > 0) {
+                    sourceHtml = `<div class="sources">Sources: ${response.sources.slice(0, 3).map(s => `<a href="${s.uri}" target="_blank" style="color:var(--primary); text-decoration:none;">${s.title}</a>`).join(', ')}</div>`;
+                }
+                chatMessages.innerHTML += `<div class="message ai">${response.text}${sourceHtml}</div>`;
             } catch (err) {
-                chat.innerHTML += `<div class="message ai" style="color:#e74c3c;">Connection to biology database lost. Please retry your request.</div>`;
+                chatMessages.innerHTML += `<div class="message ai" style="color:red;">Error: Unable to reach research servers. Please try again in a moment.</div>`;
             } finally {
                 document.getElementById('ai-loading').style.display = 'none';
-                chat.scrollTop = chat.scrollHeight;
+                chatMessages.scrollTop = chatMessages.scrollHeight;
             }
         }
 
-        // --- EVENTS ---
+        // --- UI EVENTS ---
         document.getElementById('send-chat').onclick = handleSend;
-        document.getElementById('chat-input').onkeypress = (e) => { if(e.key === 'Enter') handleSend(); };
+        document.getElementById('chat-input').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') handleSend();
+        });
+
         document.getElementById('search-bar').oninput = render;
-        
         document.querySelectorAll('.filter-btn').forEach(btn => btn.onclick = () => {
             document.querySelector('.filter-btn.active').classList.remove('active');
             btn.classList.add('active');
@@ -401,11 +419,7 @@
 
         document.getElementById('ai-toggle').onclick = () => document.getElementById('ai-chat-window').classList.toggle('active');
         document.getElementById('close-chat').onclick = () => document.getElementById('ai-chat-window').classList.remove('active');
-        
-        document.getElementById('close-modal').onclick = () => {
-            document.getElementById('modal').classList.remove('active');
-            document.getElementById('modal-body').innerHTML = '';
-        };
+        document.getElementById('close-modal').onclick = () => document.getElementById('modal').classList.remove('active');
 
         document.getElementById('theme-toggle').onclick = () => {
             const isDark = document.body.hasAttribute('data-theme');
