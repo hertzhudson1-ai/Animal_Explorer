@@ -1,4 +1,3 @@
-// server.js
 const express = require('express');
 const fetch = require('node-fetch');
 const rateLimit = require('express-rate-limit');
@@ -7,26 +6,58 @@ require('dotenv').config();
 const app = express();
 app.use(express.json());
 
-const limiter = rateLimit({ windowMs: 60_000, max: 60 });
+// SECURITY FACTOR: Limit users to 60 searches per minute to prevent spam
+const limiter = rateLimit({ 
+  windowMs: 60 * 1000, 
+  max: 60,
+  message: { error: 'Too many searches. Please wait a minute before trying again.' }
+});
+
 app.use('/api/search', limiter);
 
+/**
+ * SEARCH ENDPOINT
+ * This receives the animal query from the frontend and asks Bing for results.
+ */
 app.post('/api/search', async (req, res) => {
   const q = req.body.q || '';
-  if (!q) return res.status(400).json({ error: 'Missing query' });
+  
+  // Validation Factor: Ensure the query isn't empty
+  if (!q) {
+    return res.status(400).json({ error: 'Please provide an animal to search for.' });
+  }
 
   const endpoint = 'https://api.bing.microsoft.com/v7.0/search';
-  const params = new URLSearchParams({ q, count: '10' });
+  const params = new URLSearchParams({ q: `${q} wildlife biology facts`, count: '5' });
 
   try {
-    const r = await fetch(`${endpoint}?${params.toString()}`, {
+    // API Call Factor: Securely use the BING_KEY from environment variables
+    const response = await fetch(`${endpoint}?${params.toString()}`, {
       headers: { 'Ocp-Apim-Subscription-Key': process.env.BING_KEY }
     });
-    if (!r.ok) return res.status(502).json({ error: 'Search provider error' });
-    const data = await r.json();
-    res.json(data);
+
+    if (!response.ok) {
+      return res.status(502).json({ error: 'Search provider is currently unavailable.' });
+    }
+
+    const data = await response.json();
+    
+    // Clean up the data to send only what the student needs
+    const simplifiedResults = data.webPages?.value.map(page => ({
+      title: page.name,
+      url: page.url,
+      snippet: page.snippet
+    })) || [];
+
+    res.json({ results: simplifiedResults });
+
   } catch (err) {
-    res.status(500).json({ error: 'Server error' });
+    console.error('Server Error:', err);
+    res.status(500).json({ error: 'Internal server error occurred while searching.' });
   }
 });
 
-app.listen(3000, () => console.log('Search proxy running on :3000'));
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`✅ Wildlife Search Proxy running on port ${PORT}`);
+});
