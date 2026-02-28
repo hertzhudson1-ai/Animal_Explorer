@@ -1,375 +1,101 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Animal Vision AI - Advanced Animal Recognition & Information</title>
-    <link rel="stylesheet" href="styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Animal Explorer</title>
+  <link rel="stylesheet" href="styles.css" />
+  <!-- Plyr CSS (optional CDN) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/plyr@3.7.8/dist/plyr.css" />
 </head>
 <body>
-    <div class="app-container">
-        <!-- Sidebar Navigation -->
-        <nav class="sidebar">
-            <div class="logo">
-                <i class="fas fa-paw"></i>
-                <span>Animal Vision AI</span>
-            </div>
-            
-            <ul class="nav-links">
-                <li class="active" data-tab="home">
-                    <i class="fas fa-home"></i>
-                    <span>Home</span>
-                </li>
-                <li data-tab="search">
-                    <i class="fas fa-search"></i>
-                    <span>Search Animals</span>
-                </li>
-                <li data-tab="vision">
-                    <i class="fas fa-eye"></i>
-                    <span>Advanced Vision</span>
-                </li>
-                <li data-tab="video">
-                    <i class="fas fa-video"></i>
-                    <span>Video Player</span>
-                </li>
-                <li data-tab="ai-chat">
-                    <i class="fas fa-robot"></i>
-                    <span>AI Assistant</span>
-                </li>
-                <li data-tab="settings">
-                    <i class="fas fa-cog"></i>
-                    <span>Settings</span>
-                </li>
-            </ul>
-            
-            <div class="user-profile">
-                <img src="https://ui-avatars.com/api/?name=User&background=4361ee&color=fff" alt="User">
-                <div class="user-info">
-                    <h4>Guest User</h4>
-                    <p>Free Plan</p>
-                </div>
-            </div>
-        </nav>
+  <div class="app">
+    <aside class="sidebar">
+      <div class="brand">Animal Vision AI</div>
+      <nav>
+        <button id="nav-home" class="active">Home</button>
+        <button id="nav-search">Search Animals</button>
+        <button id="nav-vision">Advanced Vision</button>
+        <button id="nav-video">Video Player</button>
+        <button id="nav-ai">AI Assistant</button>
+        <button id="nav-settings">Settings</button>
+      </nav>
+      <div class="user">Guest User • Free Plan</div>
+    </aside>
 
-        <!-- Main Content Area -->
-        <main class="main-content">
-            <!-- Home Tab -->
-            <div id="home" class="tab-content active">
-                <div class="welcome-section">
-                    <h1>Welcome to Animal Vision AI</h1>
-                    <p>Advanced animal recognition and information platform powered by AI</p>
-                </div>
-                
-                <div class="stats-grid">
-                    <div class="stat-card">
-                        <i class="fas fa-dog"></i>
-                        <div class="stat-info">
-                            <h3>1,000+</h3>
-                            <p>Animal Species</p>
-                        </div>
-                    </div>
-                    <div class="stat-card">
-                        <i class="fas fa-brain"></i>
-                        <div class="stat-info">
-                            <h3>99.5%</h3>
-                            <p>Accuracy Rate</p>
-                        </div>
-                    </div>
-                    <div class="stat-card">
-                        <i class="fas fa-globe"></i>
-                        <div class="stat-info">
-                            <h3>50+</h3>
-                            <p>Data Sources</p>
-                        </div>
-                    </div>
-                    <div class="stat-card">
-                        <i class="fas fa-users"></i>
-                        <div class="stat-info">
-                            <h3>10K+</h3>
-                            <p>Active Users</p>
-                        </div>
-                    </div>
-                </div>
+    <main class="main">
+      <section id="home" class="panel active">
+        <h1>Welcome to Animal Vision AI</h1>
+        <p class="lead">Advanced animal recognition and information platform powered by AI</p>
+        <div class="stats">
+          <div><strong>1,000+</strong><span>Species</span></div>
+          <div><strong>99.5%</strong><span>Accuracy</span></div>
+          <div><strong>50+</strong><span>Sources</span></div>
+          <div><strong>10K+</strong><span>Users</span></div>
+        </div>
+      </section>
 
-                <div class="features-grid">
-                    <div class="feature-card">
-                        <i class="fas fa-search"></i>
-                        <h3>Animal Search</h3>
-                        <p>Search any animal and get comprehensive information from Wikipedia and multiple sources</p>
-                    </div>
-                    <div class="feature-card">
-                        <i class="fas fa-eye"></i>
-                        <h3>Advanced Vision</h3>
-                        <p>Upload images to identify animals with AI-powered recognition</p>
-                    </div>
-                    <div class="feature-card">
-                        <i class="fas fa-video"></i>
-                        <h3>Video Player</h3>
-                        <p>Watch animal videos directly on our platform</p>
-                    </div>
-                    <div class="feature-card">
-                        <i class="fas fa-robot"></i>
-                        <h3>AI Assistant</h3>
-                        <p>Chat with our AI about animals and nature</p>
-                    </div>
-                </div>
-            </div>
+      <section id="search" class="panel">
+        <h2>Animal Search</h2>
+        <div class="search-row">
+          <input id="animal-query" placeholder="Search any animal (e.g., African elephant)" />
+          <button id="search-btn">Search</button>
+        </div>
+        <div id="search-results" class="card"></div>
+      </section>
 
-            <!-- Search Tab -->
-            <div id="search" class="tab-content">
-                <div class="search-container">
-                    <h2>Animal Information Search</h2>
-                    <div class="search-box">
-                        <input type="text" id="animalSearchInput" placeholder="Enter animal name (e.g., Lion, Elephant, Dolphin...)">
-                        <button id="searchAnimalBtn" class="primary-btn">
-                            <i class="fas fa-search"></i> Search
-                        </button>
-                    </div>
-                    
-                    <div class="source-selector">
-                        <label>
-                            <input type="checkbox" value="wikipedia" checked> Wikipedia
-                        </label>
-                        <label>
-                            <input type="checkbox" value="ai" checked> AI Generated
-                        </label>
-                        <label>
-                            <input type="checkbox" value="images" checked> Images
-                        </label>
-                        <label>
-                            <input type="checkbox" value="videos" checked> Videos
-                        </label>
-                    </div>
-                </div>
+      <section id="vision" class="panel">
+        <h2>Advanced Vision</h2>
+        <div class="vision-grid">
+          <div class="card">
+            <input id="image-upload" type="file" accept="image/*" />
+            <button id="classify-btn">Classify Image</button>
+            <div id="vision-output"></div>
+          </div>
+          <div class="card">
+            <video id="camera" autoplay playsinline muted></video>
+            <button id="start-camera">Start Camera</button>
+            <button id="snap">Snap & Classify</button>
+          </div>
+        </div>
+      </section>
 
-                <div id="animalInfo" class="animal-info" style="display: none;">
-                    <div class="info-header">
-                        <h2 id="animalName"></h2>
-                        <div class="info-actions">
-                            <button id="saveAnimalBtn"><i class="far fa-bookmark"></i> Save</button>
-                            <button id="shareAnimalBtn"><i class="far fa-share-square"></i> Share</button>
-                        </div>
-                    </div>
-                    
-                    <div class="info-tabs">
-                        <button class="info-tab active" data-info="overview">Overview</button>
-                        <button class="info-tab" data-info="details">Details</button>
-                        <button class="info-tab" data-info="habitat">Habitat</button>
-                        <button class="info-tab" data-info="behavior">Behavior</button>
-                        <button class="info-tab" data-info="conservation">Conservation</button>
-                    </div>
-                    
-                    <div id="infoContent" class="info-content">
-                        <!-- Content will be dynamically inserted -->
-                    </div>
-                </div>
-            </div>
+      <section id="video" class="panel">
+        <h2>Video Player</h2>
+        <div class="card">
+          <!-- Self-hosted video element -->
+          <video id="player" controls crossorigin playsinline>
+            <source src="media/sample.mp4" type="video/mp4" />
+            <!-- For HLS, you can load .m3u8 via hls.js in JS -->
+          </video>
+        </div>
+      </section>
 
-            <!-- Vision Tab -->
-            <div id="vision" class="tab-content">
-                <h2>Advanced Vision - Animal Recognition</h2>
-                
-                <div class="vision-container">
-                    <div class="upload-area" id="dropZone">
-                        <i class="fas fa-cloud-upload-alt"></i>
-                        <h3>Drag & Drop or Click to Upload</h3>
-                        <p>Supported formats: JPG, PNG, GIF (Max 10MB)</p>
-                        <input type="file" id="imageUpload" accept="image/*" hidden>
-                        <button class="secondary-btn" onclick="document.getElementById('imageUpload').click()">
-                            Choose Image
-                        </button>
-                    </div>
-                    
-                    <div class="webcam-section">
-                        <h3>Or use webcam</h3>
-                        <div class="webcam-container">
-                            <video id="webcam" autoplay playsinline></video>
-                            <button id="captureBtn" class="primary-btn">
-                                <i class="fas fa-camera"></i> Capture
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                
-                <div id="visionResults" class="vision-results" style="display: none;">
-                    <h3>Detection Results</h3>
-                    <div class="results-grid" id="detectionResults"></div>
-                </div>
-            </div>
+      <section id="ai" class="panel">
+        <h2>AI Assistant</h2>
+        <div class="card ai-chat">
+          <div id="chat-log" class="chat-log"></div>
+          <div class="chat-input">
+            <input id="chat-text" placeholder="Ask about animals, behavior, habitat..." />
+            <button id="chat-send">Send</button>
+          </div>
+        </div>
+      </section>
 
-            <!-- Video Tab -->
-            <div id="video" class="tab-content">
-                <h2>Animal Videos</h2>
-                
-                <div class="video-container">
-                    <div class="video-player-wrapper">
-                        <video id="mainVideoPlayer" controls>
-                            <source src="" type="video/mp4">
-                            Your browser does not support the video tag.
-                        </video>
-                        <div class="video-controls">
-                            <button class="video-control" onclick="togglePlay()">
-                                <i class="fas fa-play"></i>
-                            </button>
-                            <button class="video-control" onclick="toggleMute()">
-                                <i class="fas fa-volume-up"></i>
-                            </button>
-                            <button class="video-control" onclick="toggleFullscreen()">
-                                <i class="fas fa-expand"></i>
-                            </button>
-                            <button class="video-control" onclick="togglePictureInPicture()">
-                                <i class="fas fa-clone"></i>
-                            </button>
-                        </div>
-                    </div>
-                    
-                    <div class="video-sidebar">
-                        <h3>Recommended Videos</h3>
-                        <div class="video-playlist" id="videoPlaylist">
-                            <!-- Video items will be dynamically inserted -->
-                        </div>
-                    </div>
-                </div>
-            </div>
+      <section id="settings" class="panel">
+        <h2>Settings</h2>
+        <div class="card">
+          <label><input type="checkbox" id="dark-mode" /> Enable dark mode</label>
+          <label><input type="checkbox" id="autoplay" /> Autoplay videos (muted)</label>
+          <button id="reset-settings">Reset to defaults</button>
+        </div>
+      </section>
+    </main>
+  </div>
 
-            <!-- AI Chat Tab -->
-            <div id="ai-chat" class="tab-content">
-                <h2>AI Animal Assistant</h2>
-                
-                <div class="chat-container">
-                    <div class="chat-messages" id="chatMessages">
-                        <div class="message ai-message">
-                            <img src="https://ui-avatars.com/api/?name=AI&background=4361ee&color=fff" alt="AI">
-                            <div class="message-content">
-                                <p>Hello! I'm your AI animal expert. Ask me anything about animals, their behavior, habitat, or conservation!</p>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="chat-input-container">
-                        <input type="text" id="chatInput" placeholder="Ask about any animal...">
-                        <button id="sendMessageBtn" class="primary-btn">
-                            <i class="fas fa-paper-plane"></i>
-                        </button>
-                    </div>
-                    
-                    <div class="suggested-questions">
-                        <button class="suggested-q">Tell me about lions</button>
-                        <button class="suggested-q">What do elephants eat?</button>
-                        <button class="suggested-q">Endangered species list</button>
-                        <button class="suggested-q">Fastest animals</button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Settings Tab -->
-            <div id="settings" class="tab-content">
-                <h2>Settings</h2>
-                
-                <div class="settings-container">
-                    <div class="settings-section">
-                        <h3>Appearance</h3>
-                        <div class="setting-item">
-                            <label>Theme</label>
-                            <select id="themeSelect">
-                                <option value="dark">Dark Mode</option>
-                                <option value="light">Light Mode</option>
-                                <option value="system">System Default</option>
-                            </select>
-                        </div>
-                        <div class="setting-item">
-                            <label>Font Size</label>
-                            <select id="fontSizeSelect">
-                                <option value="small">Small</option>
-                                <option value="medium" selected>Medium</option>
-                                <option value="large">Large</option>
-                            </select>
-                        </div>
-                    </div>
-                    
-                    <div class="settings-section">
-                        <h3>Video Settings</h3>
-                        <div class="setting-item">
-                            <label>Default Video Quality</label>
-                            <select id="videoQuality">
-                                <option value="auto">Auto</option>
-                                <option value="1080p">1080p</option>
-                                <option value="720p">720p</option>
-                                <option value="480p">480p</option>
-                            </select>
-                        </div>
-                        <div class="setting-item">
-                            <label>Auto-play Videos</label>
-                            <input type="checkbox" id="autoplayVideos" checked>
-                        </div>
-                    </div>
-                    
-                    <div class="settings-section">
-                        <h3>AI & Vision</h3>
-                        <div class="setting-item">
-                            <label>AI Model</label>
-                            <select id="aiModel">
-                                <option value="gpt-3.5">GPT-3.5 (Fast)</option>
-                                <option value="gpt-4">GPT-4 (Accurate)</option>
-                            </select>
-                        </div>
-                        <div class="setting-item">
-                            <label>Vision Accuracy</label>
-                            <select id="visionAccuracy">
-                                <option value="fast">Fast Detection</option>
-                                <option value="balanced" selected>Balanced</option>
-                                <option value="accurate">High Accuracy</option>
-                            </select>
-                        </div>
-                        <div class="setting-item">
-                            <label>Auto-detect in Images</label>
-                            <input type="checkbox" id="autoDetect" checked>
-                        </div>
-                    </div>
-                    
-                    <div class="settings-section">
-                        <h3>Data Sources</h3>
-                        <div class="setting-item">
-                            <label>Wikipedia</label>
-                            <input type="checkbox" class="data-source" value="wikipedia" checked>
-                        </div>
-                        <div class="setting-item">
-                            <label>IUCN Red List</label>
-                            <input type="checkbox" class="data-source" value="iucn" checked>
-                        </div>
-                        <div class="setting-item">
-                            <label>National Geographic</label>
-                            <input type="checkbox" class="data-source" value="natgeo" checked>
-                        </div>
-                        <div class="setting-item">
-                            <label>Animal Diversity Web</label>
-                            <input type="checkbox" class="data-source" value="animaldiversity" checked>
-                        </div>
-                    </div>
-                    
-                    <div class="settings-section">
-                        <h3>Notifications</h3>
-                        <div class="setting-item">
-                            <label>Enable Notifications</label>
-                            <input type="checkbox" id="enableNotifications" checked>
-                        </div>
-                        <div class="setting-item">
-                            <label>Sound Effects</label>
-                            <input type="checkbox" id="soundEffects" checked>
-                        </div>
-                    </div>
-                    
-                    <div class="settings-actions">
-                        <button class="primary-btn" onclick="saveSettings()">Save Settings</button>
-                        <button class="secondary-btn" onclick="resetSettings()">Reset to Default</button>
-                    </div>
-                </div>
-            </div>
-        </main>
-    </div>
-
-    <script src="script.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/plyr@3.7.8/dist/plyr.polyfilled.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.9.0/dist/tf.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/mobilenet@2.1.0/dist/mobilenet.min.js"></script>
+  <script src="app.js"></script>
 </body>
 </html>
