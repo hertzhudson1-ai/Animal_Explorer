@@ -1,63 +1,58 @@
-const express = require('express');
-const fetch = require('node-fetch');
-const rateLimit = require('express-rate-limit');
-require('dotenv').config();
+// Minimal Express server to proxy OpenAI and fetch Wikipedia/Wikidata
+import express from 'express';
+import fetch from 'node-fetch';
+import dotenv from 'dotenv';
+dotenv.config();
 
 const app = express();
 app.use(express.json());
+app.use(express.static('public')); // serve frontend files from /public
 
-// SECURITY FACTOR: Limit users to 60 searches per minute to prevent spam
-const limiter = rateLimit({ 
-  windowMs: 60 * 1000, 
-  max: 60,
-  message: { error: 'Too many searches. Please wait a minute before trying again.' }
+// Wikipedia summary endpoint
+app.get('/api/wiki', async (req, res) => {
+  const q = req.query.query || '';
+  const url = `https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(q)}`;
+  const r = await fetch(url);
+  if (!r.ok) return res.status(500).json({error:'Wikipedia fetch failed'});
+  const data = await r.json();
+  res.json({title: data.title, extract: data.extract});
 });
 
-app.use('/api/search', limiter);
+// Wikidata search (basic)
+app.get('/api/wikidata', async (req, res) => {
+  const q = req.query.query || '';
+  const url = `https://www.wikidata.org/w/api.php?action=wbsearchentities&search=${encodeURIComponent(q)}&language=en&format=json`;
+  const r = await fetch(url);
+  const data = await r.json();
+  const first = data.search && data.search[0];
+  if (!first) return res.json({});
+  // fetch entity details
+  const entityUrl = `https://www.wikidata.org/wiki/Special:EntityData/${first.id}.json`;
+  const ent = await fetch(entityUrl).then(r=>r.json());
+  res.json({id:first.id, description:first.description || '', entity: ent});
+});
 
-/**
- * SEARCH ENDPOINT
- * This receives the animal query from the frontend and asks Bing for results.
- */
-app.post('/api/search', async (req, res) => {
-  const q = req.body.q || '';
-  
-  // Validation Factor: Ensure the query isn't empty
-  if (!q) {
-    return res.status(400).json({ error: 'Please provide an animal to search for.' });
-  }
-
-  const endpoint = 'https://api.bing.microsoft.com/v7.0/search';
-  const params = new URLSearchParams({ q: `${q} wildlife biology facts`, count: '5' });
-
+// Chat proxy to OpenAI (example using fetch to OpenAI REST)
+app.post('/api/chat', async (req, res) => {
+  const prompt = req.body.prompt || '';
+  if (!process.env.OPENAI_API_KEY) return res.status(500).json({error:'Server missing OPENAI_API_KEY'});
   try {
-    // API Call Factor: Securely use the BING_KEY from environment variables
-    const response = await fetch(`${endpoint}?${params.toString()}`, {
-      headers: { 'Ocp-Apim-Subscription-Key': process.env.BING_KEY }
+    const r = await fetch('https://api.openai.com/v1/chat/completions', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${process.env.OPENAI_API_KEY}` },
+      body: JSON.stringify({
+        model: 'gpt-4o-mini', // example; choose appropriate model
+        messages: [{role:'user', content: prompt}],
+        max_tokens: 600
+      })
     });
-
-    if (!response.ok) {
-      return res.status(502).json({ error: 'Search provider is currently unavailable.' });
-    }
-
-    const data = await response.json();
-    
-    // Clean up the data to send only what the student needs
-    const simplifiedResults = data.webPages?.value.map(page => ({
-      title: page.name,
-      url: page.url,
-      snippet: page.snippet
-    })) || [];
-
-    res.json({ results: simplifiedResults });
-
+    const data = await r.json();
+    const reply = data.choices?.[0]?.message?.content || 'No reply';
+    res.json({reply});
   } catch (err) {
-    console.error('Server Error:', err);
-    res.status(500).json({ error: 'Internal server error occurred while searching.' });
+    res.status(500).json({error: err.message});
   }
 });
 
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`✅ Wildlife Search Proxy running on port ${PORT}`);
-});
+app.listen(PORT, ()=>console.log(`Server running on ${PORT}`));
