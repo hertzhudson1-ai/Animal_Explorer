@@ -3,428 +3,373 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Wildlife Explorer Pro | Advanced Learning</title>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --primary: #10b981;
-            --primary-dark: #059669;
-            --bg: #f0fdf4;
-            --surface: #ffffff;
-            --text: #0f172a;
-            --text-light: #64748b;
-            --border: #e2e8f0;
-            --radius: 20px;
-            --shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.1);
-        }
-
-        [data-theme="dark"] {
-            --bg: #0f172a;
-            --surface: #1e293b;
-            --text: #f8fafc;
-            --text-light: #94a3b8;
-            --border: #334155;
-            --shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.5);
-        }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Outfit', sans-serif; transition: background-color 0.3s, color 0.3s; }
-
-        body { background: var(--bg); color: var(--text); min-height: 100vh; display: flex; flex-direction: column; }
-
-        /* Header & Navigation */
-        header {
-            background: rgba(var(--surface), 0.8);
-            backdrop-filter: blur(12px);
-            position: sticky; top: 0; z-index: 100;
-            border-bottom: 1px solid var(--border);
-            padding: 15px 5%;
-            display: flex; justify-content: space-between; align-items: center;
-        }
-
-        .logo { font-size: 1.5rem; font-weight: 800; color: var(--primary); display: flex; align-items: center; gap: 8px; }
-        
-        .nav-controls { display: flex; gap: 15px; align-items: center; }
-        
-        .search-bar {
-            display: flex; background: var(--surface); border: 2px solid var(--border);
-            border-radius: 50px; overflow: hidden; width: 300px;
-        }
-        .search-bar input {
-            border: none; padding: 10px 20px; outline: none; flex: 1;
-            background: transparent; color: var(--text);
-        }
-        .search-bar button {
-            background: var(--primary); color: white; border: none;
-            padding: 0 20px; cursor: pointer; font-weight: 600;
-        }
-
-        .icon-btn {
-            background: var(--surface); border: 2px solid var(--border);
-            color: var(--text); width: 45px; height: 45px; border-radius: 50%;
-            cursor: pointer; display: grid; place-items: center; font-size: 1.2rem;
-        }
-
-        /* Main Content */
-        main { flex: 1; padding: 40px 5%; max-width: 1400px; margin: 0 auto; width: 100%; }
-        
-        .section-title { font-size: 2rem; margin-bottom: 20px; font-weight: 800; }
-
-        .grid {
-            display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 25px;
-        }
-
-        .card {
-            background: var(--surface); border-radius: var(--radius); overflow: hidden;
-            box-shadow: var(--shadow); cursor: pointer; border: 1px solid var(--border);
-            transition: transform 0.2s;
-        }
-        .card:hover { transform: translateY(-5px); border-color: var(--primary); }
-        .card img { width: 100%; height: 200px; object-fit: cover; }
-        .card-info { padding: 20px; }
-        .card-info h3 { font-size: 1.4rem; margin-bottom: 5px; }
-        .card-info p { color: var(--text-light); font-size: 0.9rem; line-height: 1.5; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
-
-        /* Modals (Settings & Animal Details) */
-        .modal-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.6); backdrop-filter: blur(5px);
-            display: none; place-items: center; z-index: 1000; padding: 20px;
-        }
-        .modal-overlay.active { display: grid; }
-        
-        .modal-content {
-            background: var(--surface); width: 100%; max-width: 900px;
-            border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow);
-            position: relative; max-height: 90vh; overflow-y: auto;
-        }
-        .settings-modal { max-width: 400px; padding: 30px; }
-
-        .close-btn {
-            position: absolute; top: 15px; right: 15px; background: rgba(0,0,0,0.5);
-            color: white; border: none; width: 35px; height: 35px; border-radius: 50%;
-            cursor: pointer; z-index: 10; font-size: 1.2rem;
-        }
-
-        /* Animal Detail Layout */
-        .video-container { width: 100%; aspect-ratio: 16/9; background: #000; position: relative; }
-        .video-container iframe { width: 100%; height: 100%; border: none; }
-        
-        .detail-body { padding: 30px; }
-        .source-tag { display: inline-block; background: #3b82f6; color: white; padding: 4px 12px; border-radius: 50px; font-size: 0.8rem; font-weight: 600; margin-bottom: 10px; }
-        
-        /* Advanced Vision Panel */
-        .vision-panel {
-            margin-top: 25px; padding: 20px; border-radius: 15px;
-            background: rgba(16, 185, 129, 0.1); border: 2px solid var(--primary);
-            position: relative; overflow: hidden;
-        }
-        .vision-header { color: var(--primary-dark); font-weight: 800; display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
-        .vision-scan-line {
-            position: absolute; top: 0; left: 0; width: 100%; height: 3px;
-            background: var(--primary); box-shadow: 0 0 10px var(--primary);
-            animation: scan 3s infinite linear; display: none;
-        }
-        @keyframes scan { 0% { top: 0; } 50% { top: 100%; } 100% { top: 0; } }
-
-        /* AI Tutor Chat */
-        .ai-fab {
-            position: fixed; bottom: 30px; right: 30px; width: 60px; height: 60px;
-            background: var(--primary); color: white; border-radius: 50%;
-            display: grid; place-items: center; font-size: 1.8rem; cursor: pointer;
-            box-shadow: 0 5px 20px rgba(16, 185, 129, 0.4); border: none; z-index: 99;
-        }
-        .ai-chat-window {
-            position: fixed; bottom: 100px; right: 30px; width: 380px; height: 500px;
-            background: var(--surface); border-radius: var(--radius); border: 1px solid var(--border);
-            box-shadow: var(--shadow); display: none; flex-direction: column; overflow: hidden; z-index: 99;
-        }
-        .ai-chat-window.active { display: flex; }
-        .chat-header { background: var(--primary); padding: 15px; color: white; font-weight: 800; display: flex; justify-content: space-between; }
-        .chat-messages { flex: 1; padding: 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; }
-        .msg { padding: 10px 15px; border-radius: 15px; font-size: 0.95rem; max-width: 85%; }
-        .msg.bot { background: var(--bg); color: var(--text); align-self: flex-start; border: 1px solid var(--border); border-bottom-left-radius: 2px; }
-        .msg.user { background: var(--primary); color: white; align-self: flex-end; border-bottom-right-radius: 2px; }
-        .chat-input { display: flex; padding: 10px; background: var(--bg); border-top: 1px solid var(--border); }
-        .chat-input input { flex: 1; padding: 10px 15px; border-radius: 50px; border: 1px solid var(--border); outline: none; background: var(--surface); color: var(--text); }
-        .chat-input button { background: var(--primary); color: white; border: none; width: 40px; height: 40px; border-radius: 50%; margin-left: 5px; cursor: pointer; }
-
-        /* Settings Toggle */
-        .setting-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding: 10px 0; border-bottom: 1px solid var(--border); }
-        .switch { position: relative; display: inline-block; width: 50px; height: 28px; }
-        .switch input { opacity: 0; width: 0; height: 0; }
-        .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #ccc; transition: .4s; border-radius: 34px; }
-        .slider:before { position: absolute; content: ""; height: 20px; width: 20px; left: 4px; bottom: 4px; background-color: white; transition: .4s; border-radius: 50%; }
-        input:checked + .slider { background-color: var(--primary); }
-        input:checked + .slider:before { transform: translateX(22px); }
-
-    </style>
+    <title>Animal Vision AI - Advanced Animal Recognition & Information</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
-
-    <header>
-        <div class="logo">🌿 Wildlife Pro</div>
-        <div class="nav-controls">
-            <div class="search-bar">
-                <input type="text" id="searchInput" placeholder="Search any animal globally...">
-                <button onclick="handleSearch()">Search</button>
-            </div>
-            <button class="icon-btn" onclick="openSettings()" title="Settings">⚙️</button>
-        </div>
-    </header>
-
-    <main>
-        <h2 class="section-title">Featured Species</h2>
-        <div class="grid" id="animalGrid">
-            <!-- Populated by JS -->
-        </div>
-    </main>
-
-    <!-- Settings Modal -->
-    <div class="modal-overlay" id="settingsModal" onclick="closeOnBgClick(event, 'settingsModal')">
-        <div class="modal-content settings-modal">
-            <button class="close-btn" onclick="document.getElementById('settingsModal').classList.remove('active')">&times;</button>
-            <h2 style="margin-bottom: 20px;">Platform Settings</h2>
-            
-            <div class="setting-row">
-                <div>
-                    <strong>Dark Mode</strong>
-                    <p style="font-size: 0.8rem; color: var(--text-light);">Easier on the eyes at night.</p>
-                </div>
-                <label class="switch">
-                    <input type="checkbox" id="themeToggle" onchange="toggleTheme()">
-                    <span class="slider"></span>
-                </label>
-            </div>
-
-            <div class="setting-row">
-                <div>
-                    <strong>Auto-play Videos</strong>
-                    <p style="font-size: 0.8rem; color: var(--text-light);">Start videos when opened.</p>
-                </div>
-                <label class="switch">
-                    <input type="checkbox" id="autoplayToggle" checked>
-                    <span class="slider"></span>
-                </label>
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <nav class="sidebar">
+            <div class="logo">
+                <i class="fas fa-paw"></i>
+                <span>Animal Vision AI</span>
             </div>
             
-            <div class="setting-row">
-                <div>
-                    <strong>Safe Search</strong>
-                    <p style="font-size: 0.8rem; color: var(--primary);">Always Active (Student Mode)</p>
-                </div>
-                <span style="font-size: 1.2rem;">🔒</span>
-            </div>
-        </div>
-    </div>
-
-    <!-- Animal Detail Modal -->
-    <div class="modal-overlay" id="detailModal" onclick="closeOnBgClick(event, 'detailModal')">
-        <div class="modal-content">
-            <button class="close-btn" onclick="closeDetailModal()">&times;</button>
+            <ul class="nav-links">
+                <li class="active" data-tab="home">
+                    <i class="fas fa-home"></i>
+                    <span>Home</span>
+                </li>
+                <li data-tab="search">
+                    <i class="fas fa-search"></i>
+                    <span>Search Animals</span>
+                </li>
+                <li data-tab="vision">
+                    <i class="fas fa-eye"></i>
+                    <span>Advanced Vision</span>
+                </li>
+                <li data-tab="video">
+                    <i class="fas fa-video"></i>
+                    <span>Video Player</span>
+                </li>
+                <li data-tab="ai-chat">
+                    <i class="fas fa-robot"></i>
+                    <span>AI Assistant</span>
+                </li>
+                <li data-tab="settings">
+                    <i class="fas fa-cog"></i>
+                    <span>Settings</span>
+                </li>
+            </ul>
             
-            <div class="video-container" id="videoBox">
-                <!-- Iframe injected here -->
-            </div>
-
-            <div class="detail-body">
-                <span class="source-tag" id="detailSource">Verified Database</span>
-                <h1 id="detailTitle" style="font-size: 2.5rem; margin-bottom: 10px;">Animal Name</h1>
-                <p id="detailDesc" style="font-size: 1.1rem; line-height: 1.7; color: var(--text-light);">Description goes here.</p>
-
-                <div class="vision-panel">
-                    <div class="vision-scan-line" id="visionScanner"></div>
-                    <div class="vision-header">👁️ Advanced Vision Analysis</div>
-                    <p id="visionText">Initializing visual sensors...</p>
+            <div class="user-profile">
+                <img src="https://ui-avatars.com/api/?name=User&background=4361ee&color=fff" alt="User">
+                <div class="user-info">
+                    <h4>Guest User</h4>
+                    <p>Free Plan</p>
                 </div>
             </div>
-        </div>
-    </div>
+        </nav>
 
-    <!-- AI Tutor -->
-    <button class="ai-fab" onclick="toggleChat()">🤖</button>
-    <div class="ai-chat-window" id="chatWindow">
-        <div class="chat-header">
-            <span>Wildlife AI Tutor</span>
-            <button onclick="toggleChat()" style="background:none;border:none;color:white;cursor:pointer;">&times;</button>
-        </div>
-        <div class="chat-messages" id="chatMessages">
-            <div class="msg bot">Hi! I'm your Wildlife Tutor. Ask me anything about animals, nature, or biology!</div>
-        </div>
-        <div class="chat-input">
-            <input type="text" id="chatInput" placeholder="Ask a question..." onkeypress="if(event.key === 'Enter') sendChatMessage()">
-            <button onclick="sendChatMessage()">➔</button>
-        </div>
-    </div>
-
-    <script>
-        // --- App State & Data ---
-        // Note: Make sure the YouTube videos you choose allow "embedding"!
-        const defaultAnimals = [
-            { name: "African Elephant", img: "https://images.unsplash.com/photo-1557050543-4d5f4e07ef46?w=600", vid: "2G8LAiHPNOM", desc: "The largest land animal on Earth. They use their trunks for communication, handling objects, and foraging. Highly intelligent and social creatures." },
-            { name: "Emperor Penguin", img: "https://images.unsplash.com/photo-1598439210625-5067c578f3f6?w=600", vid: "c7M686pXr6M", desc: "The tallest and heaviest of all living penguin species. Found exclusively in Antarctica, they endure extreme cold to breed during the harsh winter." },
-            { name: "Green Sea Turtle", img: "https://images.unsplash.com/photo-1437622368342-7a3d73a34c8f?w=600", vid: "5R-M-1n2Xz8", desc: "A large sea turtle found throughout tropical oceans. They are named for the greenish color of their cartilage and fat, not their shells." },
-            { name: "Snow Leopard", img: "https://images.unsplash.com/photo-1588137378733-149bb52b027c?w=600", vid: "1zZ58gKIf-0", desc: "A secretive large cat native to the mountain ranges of Central and South Asia. Known for their beautiful thick fur and incredible leaping ability." }
-        ];
-
-        // Default generic wildlife video for searched animals without specific IDs
-        const fallbackVideoId = "jNQXAC9IVRw"; 
-
-        // --- Initialization ---
-        function init() {
-            const grid = document.getElementById('animalGrid');
-            grid.innerHTML = defaultAnimals.map(a => `
-                <div class="card" onclick="openAnimal('${a.name}', '${a.desc}', '${a.vid}', 'Internal Database')">
-                    <img src="${a.img}" alt="${a.name}">
-                    <div class="card-info">
-                        <h3>${a.name}</h3>
-                        <p>${a.desc}</p>
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <!-- Home Tab -->
+            <div id="home" class="tab-content active">
+                <div class="welcome-section">
+                    <h1>Welcome to Animal Vision AI</h1>
+                    <p>Advanced animal recognition and information platform powered by AI</p>
+                </div>
+                
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <i class="fas fa-dog"></i>
+                        <div class="stat-info">
+                            <h3>1,000+</h3>
+                            <p>Animal Species</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-brain"></i>
+                        <div class="stat-info">
+                            <h3>99.5%</h3>
+                            <p>Accuracy Rate</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-globe"></i>
+                        <div class="stat-info">
+                            <h3>50+</h3>
+                            <p>Data Sources</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-users"></i>
+                        <div class="stat-info">
+                            <h3>10K+</h3>
+                            <p>Active Users</p>
+                        </div>
                     </div>
                 </div>
-            `).join('');
-        }
 
-        // --- Dynamic Wikipedia Search ---
-        async function handleSearch() {
-            const query = document.getElementById('searchInput').value.trim();
-            if (!query) return;
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <i class="fas fa-search"></i>
+                        <h3>Animal Search</h3>
+                        <p>Search any animal and get comprehensive information from Wikipedia and multiple sources</p>
+                    </div>
+                    <div class="feature-card">
+                        <i class="fas fa-eye"></i>
+                        <h3>Advanced Vision</h3>
+                        <p>Upload images to identify animals with AI-powered recognition</p>
+                    </div>
+                    <div class="feature-card">
+                        <i class="fas fa-video"></i>
+                        <h3>Video Player</h3>
+                        <p>Watch animal videos directly on our platform</p>
+                    </div>
+                    <div class="feature-card">
+                        <i class="fas fa-robot"></i>
+                        <h3>AI Assistant</h3>
+                        <p>Chat with our AI about animals and nature</p>
+                    </div>
+                </div>
+            </div>
 
-            document.getElementById('searchInput').value = "Searching global databases...";
-            
-            try {
-                // Fetch from Wikipedia REST API directly from the browser!
-                const res = await fetch(`https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(query)}`);
-                if (!res.ok) throw new Error("Not found");
+            <!-- Search Tab -->
+            <div id="search" class="tab-content">
+                <div class="search-container">
+                    <h2>Animal Information Search</h2>
+                    <div class="search-box">
+                        <input type="text" id="animalSearchInput" placeholder="Enter animal name (e.g., Lion, Elephant, Dolphin...)">
+                        <button id="searchAnimalBtn" class="primary-btn">
+                            <i class="fas fa-search"></i> Search
+                        </button>
+                    </div>
+                    
+                    <div class="source-selector">
+                        <label>
+                            <input type="checkbox" value="wikipedia" checked> Wikipedia
+                        </label>
+                        <label>
+                            <input type="checkbox" value="ai" checked> AI Generated
+                        </label>
+                        <label>
+                            <input type="checkbox" value="images" checked> Images
+                        </label>
+                        <label>
+                            <input type="checkbox" value="videos" checked> Videos
+                        </label>
+                    </div>
+                </div>
+
+                <div id="animalInfo" class="animal-info" style="display: none;">
+                    <div class="info-header">
+                        <h2 id="animalName"></h2>
+                        <div class="info-actions">
+                            <button id="saveAnimalBtn"><i class="far fa-bookmark"></i> Save</button>
+                            <button id="shareAnimalBtn"><i class="far fa-share-square"></i> Share</button>
+                        </div>
+                    </div>
+                    
+                    <div class="info-tabs">
+                        <button class="info-tab active" data-info="overview">Overview</button>
+                        <button class="info-tab" data-info="details">Details</button>
+                        <button class="info-tab" data-info="habitat">Habitat</button>
+                        <button class="info-tab" data-info="behavior">Behavior</button>
+                        <button class="info-tab" data-info="conservation">Conservation</button>
+                    </div>
+                    
+                    <div id="infoContent" class="info-content">
+                        <!-- Content will be dynamically inserted -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Vision Tab -->
+            <div id="vision" class="tab-content">
+                <h2>Advanced Vision - Animal Recognition</h2>
                 
-                const data = await res.json();
+                <div class="vision-container">
+                    <div class="upload-area" id="dropZone">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        <h3>Drag & Drop or Click to Upload</h3>
+                        <p>Supported formats: JPG, PNG, GIF (Max 10MB)</p>
+                        <input type="file" id="imageUpload" accept="image/*" hidden>
+                        <button class="secondary-btn" onclick="document.getElementById('imageUpload').click()">
+                            Choose Image
+                        </button>
+                    </div>
+                    
+                    <div class="webcam-section">
+                        <h3>Or use webcam</h3>
+                        <div class="webcam-container">
+                            <video id="webcam" autoplay playsinline></video>
+                            <button id="captureBtn" class="primary-btn">
+                                <i class="fas fa-camera"></i> Capture
+                            </button>
+                        </div>
+                    </div>
+                </div>
                 
-                // Reset search bar
-                document.getElementById('searchInput').value = "";
+                <div id="visionResults" class="vision-results" style="display: none;">
+                    <h3>Detection Results</h3>
+                    <div class="results-grid" id="detectionResults"></div>
+                </div>
+            </div>
 
-                // Open Modal with Wiki Data
-                openAnimal(data.title, data.extract, fallbackVideoId, "Source: Wikipedia");
+            <!-- Video Tab -->
+            <div id="video" class="tab-content">
+                <h2>Animal Videos</h2>
                 
-            } catch (err) {
-                alert(`Could not find educational data for "${query}". Try searching for common animal names like 'Tiger' or 'Dolphin'.`);
-                document.getElementById('searchInput').value = "";
-            }
-        }
+                <div class="video-container">
+                    <div class="video-player-wrapper">
+                        <video id="mainVideoPlayer" controls>
+                            <source src="" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                        <div class="video-controls">
+                            <button class="video-control" onclick="togglePlay()">
+                                <i class="fas fa-play"></i>
+                            </button>
+                            <button class="video-control" onclick="toggleMute()">
+                                <i class="fas fa-volume-up"></i>
+                            </button>
+                            <button class="video-control" onclick="toggleFullscreen()">
+                                <i class="fas fa-expand"></i>
+                            </button>
+                            <button class="video-control" onclick="togglePictureInPicture()">
+                                <i class="fas fa-clone"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="video-sidebar">
+                        <h3>Recommended Videos</h3>
+                        <div class="video-playlist" id="videoPlaylist">
+                            <!-- Video items will be dynamically inserted -->
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-        // --- Detail Modal & In-Website Video ---
-        function openAnimal(title, desc, vidId, sourceText) {
-            document.getElementById('detailTitle').innerText = title;
-            document.getElementById('detailDesc').innerText = desc;
-            document.getElementById('detailSource').innerText = sourceText;
-            
-            // Handle Video Player & Settings
-            // FIX: Browsers require auto-playing videos to be muted. Changed mute=0 to mute=1.
-            const autoplay = document.getElementById('autoplayToggle').checked ? "?autoplay=1&mute=1" : "?autoplay=0";
-            document.getElementById('videoBox').innerHTML = `<iframe src="https://www.youtube.com/embed/${vidId}${autoplay}" allow="autoplay; encrypted-media; fullscreen"></iframe>`;
-            
-            document.getElementById('detailModal').classList.add('active');
-            
-            // Trigger Advanced Vision Analysis Simulation
-            runVisionAnalysis(title, desc);
-        }
-
-        function closeDetailModal() {
-            document.getElementById('detailModal').classList.remove('active');
-            document.getElementById('videoBox').innerHTML = ''; // Stops video playing in background
-        }
-
-        function closeOnBgClick(e, id) {
-            if(e.target.id === id) {
-                if(id === 'detailModal') closeDetailModal();
-                else document.getElementById(id).classList.remove('active');
-            }
-        }
-
-        // --- Advanced Vision Logic ---
-        function runVisionAnalysis(animalName, desc) {
-            const visionText = document.getElementById('visionText');
-            const scanner = document.getElementById('visionScanner');
-            
-            visionText.innerText = "Scanning anatomical structure and habitat patterns...";
-            visionText.style.opacity = 0.5;
-            scanner.style.display = 'block';
-
-            // Simulate processing time, then generate an AI-like visual summary based on the animal
-            setTimeout(() => {
-                scanner.style.display = 'none';
-                visionText.style.opacity = 1;
+            <!-- AI Chat Tab -->
+            <div id="ai-chat" class="tab-content">
+                <h2>AI Animal Assistant</h2>
                 
-                // Generate a smart-sounding visual analysis
-                const keywords = desc.split(' ').filter(w => w.length > 5).slice(0, 3).join(', ');
-                visionText.innerHTML = `<strong>Vision Complete:</strong> Subject identified as <em>${animalName}</em>. Detected evolutionary adaptations optimized for survival. Key physiological markers correlate with traits associated with: ${keywords}. Behavior indicates high environmental awareness.`;
-            }, 2500);
-        }
+                <div class="chat-container">
+                    <div class="chat-messages" id="chatMessages">
+                        <div class="message ai-message">
+                            <img src="https://ui-avatars.com/api/?name=AI&background=4361ee&color=fff" alt="AI">
+                            <div class="message-content">
+                                <p>Hello! I'm your AI animal expert. Ask me anything about animals, their behavior, habitat, or conservation!</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="chat-input-container">
+                        <input type="text" id="chatInput" placeholder="Ask about any animal...">
+                        <button id="sendMessageBtn" class="primary-btn">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+                    
+                    <div class="suggested-questions">
+                        <button class="suggested-q">Tell me about lions</button>
+                        <button class="suggested-q">What do elephants eat?</button>
+                        <button class="suggested-q">Endangered species list</button>
+                        <button class="suggested-q">Fastest animals</button>
+                    </div>
+                </div>
+            </div>
 
-        // --- Settings Logic ---
-        function openSettings() { document.getElementById('settingsModal').classList.add('active'); }
-        
-        function toggleTheme() {
-            if (document.getElementById('themeToggle').checked) {
-                document.body.setAttribute('data-theme', 'dark');
-            } else {
-                document.body.removeAttribute('data-theme');
-            }
-        }
+            <!-- Settings Tab -->
+            <div id="settings" class="tab-content">
+                <h2>Settings</h2>
+                
+                <div class="settings-container">
+                    <div class="settings-section">
+                        <h3>Appearance</h3>
+                        <div class="setting-item">
+                            <label>Theme</label>
+                            <select id="themeSelect">
+                                <option value="dark">Dark Mode</option>
+                                <option value="light">Light Mode</option>
+                                <option value="system">System Default</option>
+                            </select>
+                        </div>
+                        <div class="setting-item">
+                            <label>Font Size</label>
+                            <select id="fontSizeSelect">
+                                <option value="small">Small</option>
+                                <option value="medium" selected>Medium</option>
+                                <option value="large">Large</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="settings-section">
+                        <h3>Video Settings</h3>
+                        <div class="setting-item">
+                            <label>Default Video Quality</label>
+                            <select id="videoQuality">
+                                <option value="auto">Auto</option>
+                                <option value="1080p">1080p</option>
+                                <option value="720p">720p</option>
+                                <option value="480p">480p</option>
+                            </select>
+                        </div>
+                        <div class="setting-item">
+                            <label>Auto-play Videos</label>
+                            <input type="checkbox" id="autoplayVideos" checked>
+                        </div>
+                    </div>
+                    
+                    <div class="settings-section">
+                        <h3>AI & Vision</h3>
+                        <div class="setting-item">
+                            <label>AI Model</label>
+                            <select id="aiModel">
+                                <option value="gpt-3.5">GPT-3.5 (Fast)</option>
+                                <option value="gpt-4">GPT-4 (Accurate)</option>
+                            </select>
+                        </div>
+                        <div class="setting-item">
+                            <label>Vision Accuracy</label>
+                            <select id="visionAccuracy">
+                                <option value="fast">Fast Detection</option>
+                                <option value="balanced" selected>Balanced</option>
+                                <option value="accurate">High Accuracy</option>
+                            </select>
+                        </div>
+                        <div class="setting-item">
+                            <label>Auto-detect in Images</label>
+                            <input type="checkbox" id="autoDetect" checked>
+                        </div>
+                    </div>
+                    
+                    <div class="settings-section">
+                        <h3>Data Sources</h3>
+                        <div class="setting-item">
+                            <label>Wikipedia</label>
+                            <input type="checkbox" class="data-source" value="wikipedia" checked>
+                        </div>
+                        <div class="setting-item">
+                            <label>IUCN Red List</label>
+                            <input type="checkbox" class="data-source" value="iucn" checked>
+                        </div>
+                        <div class="setting-item">
+                            <label>National Geographic</label>
+                            <input type="checkbox" class="data-source" value="natgeo" checked>
+                        </div>
+                        <div class="setting-item">
+                            <label>Animal Diversity Web</label>
+                            <input type="checkbox" class="data-source" value="animaldiversity" checked>
+                        </div>
+                    </div>
+                    
+                    <div class="settings-section">
+                        <h3>Notifications</h3>
+                        <div class="setting-item">
+                            <label>Enable Notifications</label>
+                            <input type="checkbox" id="enableNotifications" checked>
+                        </div>
+                        <div class="setting-item">
+                            <label>Sound Effects</label>
+                            <input type="checkbox" id="soundEffects" checked>
+                        </div>
+                    </div>
+                    
+                    <div class="settings-actions">
+                        <button class="primary-btn" onclick="saveSettings()">Save Settings</button>
+                        <button class="secondary-btn" onclick="resetSettings()">Reset to Default</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
 
-        // --- AI Tutor (Gemini Integration) ---
-        function toggleChat() { document.getElementById('chatWindow').classList.toggle('active'); }
-
-        async function sendChatMessage() {
-            const input = document.getElementById('chatInput');
-            const text = input.value.trim();
-            if (!text) return;
-
-            const chatBox = document.getElementById('chatMessages');
-            
-            // Append User Message
-            chatBox.innerHTML += `<div class="msg user">${text}</div>`;
-            input.value = '';
-            chatBox.scrollTop = chatBox.scrollHeight;
-
-            // Append Loading Indicator
-            const loadingId = 'load-' + Date.now();
-            chatBox.innerHTML += `<div class="msg bot" id="${loadingId}">Thinking...</div>`;
-            chatBox.scrollTop = chatBox.scrollHeight;
-
-            // Gemini API Call
-            const apiKey = ""; // API Key injected by environment
-            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
-            
-            const payload = {
-                contents: [{ parts: [{ text: text }] }],
-                systemInstruction: { parts: [{ text: "You are a professional, friendly wildlife tutor for students under 18. Keep answers safe, concise, and focused on biology, animals, and nature." }] }
-            };
-
-            try {
-                // Implement exponential backoff for safety as requested
-                let response, data;
-                const delays = [1000, 2000, 4000];
-                for (let i = 0; i < delays.length; i++) {
-                    response = await fetch(url, { method: 'POST', body: JSON.stringify(payload) });
-                    if (response.ok) {
-                        data = await response.json();
-                        break;
-                    }
-                    if (i === delays.length - 1) throw new Error("API failed");
-                    await new Promise(r => setTimeout(r, delays[i]));
-                }
-
-                const botReply = data.candidates[0].content.parts[0].text;
-                document.getElementById(loadingId).innerText = botReply;
-
-            } catch (error) {
-                document.getElementById(loadingId).innerText = "I'm having trouble connecting to my wildlife database right now. Please try again later!";
-                document.getElementById(loadingId).style.color = "red";
-            }
-            
-            chatBox.scrollTop = chatBox.scrollHeight;
-        }
-
-        // Run on load
-        init();
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
