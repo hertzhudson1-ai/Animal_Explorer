@@ -258,15 +258,16 @@
 
     <script>
         // --- App State & Data ---
+        // Note: Make sure the YouTube videos you choose allow "embedding"!
         const defaultAnimals = [
-            { name: "African Elephant", img: "https://images.unsplash.com/photo-1557050543-4d5f4e07ef46?w=600", vid: "AWaawE2zDbs", desc: "The largest land animal on Earth. They use their trunks for communication, handling objects, and foraging. Highly intelligent and social creatures." },
-            { name: "Emperor Penguin", img: "https://images.unsplash.com/photo-1598439210625-5067c578f3f6?w=600", vid: "MqqJM_1sZg0", desc: "The tallest and heaviest of all living penguin species. Found exclusively in Antarctica, they endure extreme cold to breed during the harsh winter." },
-            { name: "Green Sea Turtle", img: "https://images.unsplash.com/photo-1437622368342-7a3d73a34c8f?w=600", vid: "yqKivdF375w", desc: "A large sea turtle found throughout tropical oceans. They are named for the greenish color of their cartilage and fat, not their shells." },
-            { name: "Snow Leopard", img: "https://images.unsplash.com/photo-1588137378733-149bb52b027c?w=600", vid: "1XN1pD-BXXw", desc: "A secretive large cat native to the mountain ranges of Central and South Asia. Known for their beautiful thick fur and incredible leaping ability." }
+            { name: "African Elephant", img: "https://images.unsplash.com/photo-1557050543-4d5f4e07ef46?w=600", vid: "2G8LAiHPNOM", desc: "The largest land animal on Earth. They use their trunks for communication, handling objects, and foraging. Highly intelligent and social creatures." },
+            { name: "Emperor Penguin", img: "https://images.unsplash.com/photo-1598439210625-5067c578f3f6?w=600", vid: "c7M686pXr6M", desc: "The tallest and heaviest of all living penguin species. Found exclusively in Antarctica, they endure extreme cold to breed during the harsh winter." },
+            { name: "Green Sea Turtle", img: "https://images.unsplash.com/photo-1437622368342-7a3d73a34c8f?w=600", vid: "5R-M-1n2Xz8", desc: "A large sea turtle found throughout tropical oceans. They are named for the greenish color of their cartilage and fat, not their shells." },
+            { name: "Snow Leopard", img: "https://images.unsplash.com/photo-1588137378733-149bb52b027c?w=600", vid: "1zZ58gKIf-0", desc: "A secretive large cat native to the mountain ranges of Central and South Asia. Known for their beautiful thick fur and incredible leaping ability." }
         ];
 
         // Default generic wildlife video for searched animals without specific IDs
-        const fallbackVideoId = "6YJb3o15ZFE"; 
+        const fallbackVideoId = "jNQXAC9IVRw"; 
 
         // --- Initialization ---
         function init() {
@@ -315,7 +316,8 @@
             document.getElementById('detailSource').innerText = sourceText;
             
             // Handle Video Player & Settings
-            const autoplay = document.getElementById('autoplayToggle').checked ? "?autoplay=1&mute=0" : "?autoplay=0";
+            // FIX: Browsers require auto-playing videos to be muted. Changed mute=0 to mute=1.
+            const autoplay = document.getElementById('autoplayToggle').checked ? "?autoplay=1&mute=1" : "?autoplay=0";
             document.getElementById('videoBox').innerHTML = `<iframe src="https://www.youtube.com/embed/${vidId}${autoplay}" allow="autoplay; encrypted-media; fullscreen"></iframe>`;
             
             document.getElementById('detailModal').classList.add('active');
