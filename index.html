@@ -3,66 +3,117 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Animal Explorer • Discover Wildlife</title>
-<meta name="description" content="Explore 10,000+ animal species with advanced AI search, videos, facts and conservation insights.">
-<link href="assets/css/style.css" rel="stylesheet">
+<title>Animal Explorer | Wildlife Education & Conservation</title>
+<link rel="stylesheet" href="assets/css/style.css">
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
 </head>
+
 <body>
 
-<!-- NAV -->
-<header class="navbar">
+<!-- TOP BAR -->
+<div class="top-bar">
   <div class="container">
-    <a href="index.html" class="logo">Animal Explorer</a>
+    <span><i class="fas fa-envelope"></i> info@animalexplorer.org</span>
+    <span><i class="fas fa-phone"></i> +123 456 7890</span>
+  </div>
+</div>
+
+<!-- NAVIGATION -->
+<header>
+  <div class="container nav-container">
+    <div class="logo">Animal Explorer</div>
     <nav>
-      <a href="index.html">Home</a>
-      <a href="species.html">Species</a>
-      <a href="ai.html">AI Identify</a>
-      <a href="blog.html">Blog</a>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="species.html">Species</a></li>
+        <li><a href="conservation.html">Conservation</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
     </nav>
-    <button id="themeToggle"><i class="fas fa-moon"></i></button>
   </div>
 </header>
 
-<!-- HERO -->
+<!-- HERO SECTION -->
 <section class="hero">
   <div class="hero-content">
-    <h1>Explore the Wilderness</h1>
-    <p>Instantly search or identify animals from around the world.</p>
-    <a href="ai.html" class="btn btn-primary">Start Identifying</a>
+    <h1>Protecting Wildlife Through Education</h1>
+    <p>Explore species, conservation programs, and wildlife research.</p>
+    <a href="species.html" class="btn">Explore Species</a>
   </div>
 </section>
 
-<!-- SEARCH & CATEGORIES -->
-<section class="search-section">
-  <input type="search" id="searchInput" placeholder="Search species…">
-  <div id="searchResults"></div>
+<!-- ABOUT PREVIEW -->
+<section class="section">
+  <div class="container grid-2">
+    <div>
+      <h2>Welcome to Animal Explorer</h2>
+      <p>
+        We are dedicated to wildlife education, research, and conservation.
+        Our mission is to inspire future generations to protect endangered species.
+      </p>
+      <a href="about.html" class="btn-outline">Learn More</a>
+    </div>
+    <img src="assets/images/forest.jpg" alt="Forest">
+  </div>
 </section>
 
-<!-- HIGHLIGHTS -->
-<section class="features">
-  <div class="card">
-    <i class="fas fa-camera"></i>
-    <h3>AI Image Classifier</h3>
-    <p>Upload or snap to identify species instantly.</p>
-  </div>
-  <div class="card">
-    <i class="fas fa-book"></i>
-    <h3>Species Database</h3>
-    <p>Explore ecosystems, traits & conservation info.</p>
-  </div>
-  <div class="card">
-    <i class="fas fa-globe"></i>
-    <h3>Interactive Maps</h3>
-    <p>Visualize wildlife across continents.</p>
+<!-- NEWS / ANNOUNCEMENTS -->
+<section class="section bg-light">
+  <div class="container">
+    <h2 class="center">Latest News & Events</h2>
+    <div class="grid-3">
+
+      <div class="card">
+        <img src="assets/images/lion.jpg">
+        <h3>Lion Conservation Program</h3>
+        <p>New wildlife protection initiative launched this year.</p>
+      </div>
+
+      <div class="card">
+        <img src="assets/images/elephant.jpg">
+        <h3>Elephant Research Study</h3>
+        <p>Tracking migration patterns across Africa.</p>
+      </div>
+
+      <div class="card">
+        <img src="assets/images/forest.jpg">
+        <h3>Rainforest Awareness Week</h3>
+        <p>Educational programs and community events.</p>
+      </div>
+
+    </div>
   </div>
 </section>
 
 <!-- FOOTER -->
-<footer class="site-footer">
-<p>© 2026 Animal Explorer. All rights reserved.</p>
+<footer>
+  <div class="container footer-grid">
+    <div>
+      <h3>Animal Explorer</h3>
+      <p>Inspiring wildlife conservation worldwide.</p>
+    </div>
+
+    <div>
+      <h4>Quick Links</h4>
+      <ul>
+        <li><a href="about.html">About</a></li>
+        <li><a href="species.html">Species</a></li>
+        <li><a href="conservation.html">Programs</a></li>
+      </ul>
+    </div>
+
+    <div>
+      <h4>Contact</h4>
+      <p>Email: info@animalexplorer.org</p>
+      <p>Phone: +123 456 7890</p>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    © 2026 Animal Explorer. All Rights Reserved.
+  </div>
 </footer>
 
-<script src="assets/js/main.js"></script>
 </body>
 </html>
