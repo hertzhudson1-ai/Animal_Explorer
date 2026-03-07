@@ -1,35 +1,253 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <link rel="stylesheet" href="styles.css">
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Animal Explorer - Home</title>
-  <style>
-    body { font-family: Arial, sans-serif; background: linear-gradient(to bottom, #4CAF50, #2196F3); color: white; margin: 0; padding: 20px; animation: fadeIn 2s; }
-    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-    header { text-align: center; padding: 50px; background: rgba(0,0,0,0.5); border-radius: 10px; box-shadow: 0 4px 20px rgba(0,0,0,0.3); }
-    h1 { font-size: 3em; text-shadow: 2px 2px 4px #000; }
-    #search { width: 80%; padding: 15px; border: none; border-radius: 5px; font-size: 1.2em; box-shadow: 0 2px 10px rgba(0,0,0,0.2); transition: transform 0.3s; }
-    #search:focus { transform: scale(1.05); }
-    ul { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; }
-    li a { display: block; padding: 20px; background: rgba(255,255,255,0.2); border-radius: 10px; text-decoration: none; color: white; text-align: center; transition: background 0.3s; box-shadow: 0 2px 10px rgba(0,0,0,0.2); }
-    li a:hover { background: rgba(255,255,255,0.4); transform: translateY(-5px); }
-    footer { text-align: center; margin-top: 50px; }
-    footer a { color: #FFEB3B; text-decoration: none; font-weight: bold; }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wildlife Explorer | Discover the Unseen</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+    <style>
+        :root {
+            --forest: #064e3b;
+            --moss: #14532d;
+            --leaf: #22c55e;
+            --earth: #1a1a1a;
+            --snow: #f8fafc;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background-color: var(--earth); 
+            color: var(--snow);
+            overflow-x: hidden;
+        }
+
+        /* Custom Cursor */
+        #cursor {
+            width: 20px; height: 20px;
+            background: var(--leaf);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 999;
+            mix-blend-mode: difference;
+            transition: transform 0.1s ease;
+        }
+
+        /* Hero Section with Parallax Feel */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), 
+                        url('https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&q=80&w=2000');
+            background-size: cover;
+            background-position: center;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(3.5rem, 10vw, 7rem);
+            line-height: 1;
+            margin-bottom: 20px;
+        }
+
+        .explorer-tag {
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            color: var(--leaf);
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        /* Species Grid */
+        .section-title {
+            padding: 80px 10% 20px;
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+        }
+
+        .species-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            padding: 40px 10%;
+        }
+
+        .species-card {
+            position: relative;
+            height: 450px;
+            border-radius: 15px;
+            overflow: hidden;
+            cursor: pointer;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .species-card img {
+            width: 100%; height: 100%;
+            object-fit: cover;
+            transition: transform 0.8s cubic-bezier(0.2, 1, 0.3, 1);
+        }
+
+        .card-overlay {
+            position: absolute;
+            bottom: 0; left: 0; width: 100%;
+            padding: 40px 20px;
+            background: linear-gradient(transparent, rgba(0,0,0,0.9));
+            transform: translateY(60px);
+            transition: transform 0.4s ease;
+        }
+
+        .species-card:hover img { transform: scale(1.1); }
+        .species-card:hover .card-overlay { transform: translateY(0); }
+
+        .species-name { font-size: 1.8rem; font-family: 'Playfair Display', serif; }
+        .species-stats { 
+            display: flex; gap: 15px; margin-top: 10px; 
+            font-size: 0.8rem; color: var(--leaf); opacity: 0; transition: 0.5s;
+        }
+        .species-card:hover .species-stats { opacity: 1; }
+
+        /* Fact Counter Section */
+        .impact-bar {
+            background: var(--forest);
+            padding: 60px 10%;
+            display: flex;
+            justify-content: space-around;
+            text-align: center;
+        }
+
+        .stat-item h2 { font-size: 3rem; color: var(--leaf); }
+
+        footer {
+            padding: 40px;
+            text-align: center;
+            border-top: 1px solid #333;
+            font-size: 0.9rem;
+            color: #666;
+        }
+    </style>
 </head>
 <body>
-  <header>
-    <h1>Welcome to Animal Explorer</h1>
-    <p>Discover 50+ wild animals with stunning visuals from Dar es Salaam!</p>
-    <input type="text" id="search" placeholder="Search animals...">
-  </header>
-  <ul id="animalLinks"></ul> <!-- Dynamically populated -->
-  <footer>
-    <a href="videos.html">Watch Wildlife Videos</a>.
-    <a href="register.html">Register</a> | <a href="ai.html">AI Features</a>
-  </footer>
-  <script src="main.js"></script>
+
+    <div id="cursor"></div>
+
+    <section class="hero">
+        <p class="explorer-tag">The Great Outdoors</p>
+        <h1 id="hero-title">WILDLIFE<br>EXPLORER</h1>
+        <p style="max-width: 500px;">Journey through the world's most diverse ecosystems and meet the creatures that call them home.</p>
+    </section>
+
+    <h2 class="section-title">Endangered Species</h2>
+    <div class="species-grid">
+        <div class="species-card reveal">
+            <img src="https://images.unsplash.com/photo-1564417947365-8db644d67315?auto=format&fit=crop&q=80&w=800" alt="Tiger">
+            <div class="card-overlay">
+                <p style="font-size: 0.7rem; text-transform: uppercase;">Mammal • Panthera tigris</p>
+                <h3 class="species-name">Bengal Tiger</h3>
+                <div class="species-stats">
+                    <span><i class="fas fa-heartbeat"></i> 3,900 left</span>
+                    <span><i class="fas fa-map-marker-alt"></i> Asia</span>
+                </div>
+            </div>
+        </div>
+        <div class="species-card reveal">
+            <img src="https://images.unsplash.com/photo-1546182990-dffeafbe841d?auto=format&fit=crop&q=80&w=800" alt="Lion">
+            <div class="card-overlay">
+                <p style="font-size: 0.7rem; text-transform: uppercase;">Mammal • Panthera leo</p>
+                <h3 class="species-name">African Lion</h3>
+                <div class="species-stats">
+                    <span><i class="fas fa-heartbeat"></i> 20,000 left</span>
+                    <span><i class="fas fa-map-marker-alt"></i> Africa</span>
+                </div>
+            </div>
+        </div>
+        <div class="species-card reveal">
+            <img src="https://images.unsplash.com/photo-1543946207-39bd91e70ca7?auto=format&fit=crop&q=80&w=800" alt="Elephant">
+            <div class="card-overlay">
+                <p style="font-size: 0.7rem; text-transform: uppercase;">Mammal • Loxodonta</p>
+                <h3 class="species-name">Savanna Elephant</h3>
+                <div class="species-stats">
+                    <span><i class="fas fa-heartbeat"></i> Vulnerable</span>
+                    <span><i class="fas fa-map-marker-alt"></i> Africa</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="impact-bar">
+        <div class="stat-item">
+            <h2 class="counter">1200</h2>
+            <p>Species Tracked</p>
+        </div>
+        <div class="stat-item">
+            <h2 class="counter">45</h2>
+            <p>Countries Covered</p>
+        </div>
+        <div class="stat-item">
+            <h2 class="counter">89</h2>
+            <p>Conservation Partners</p>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 Wildlife Explorer Project. Nature belongs to everyone.</p>
+    </footer>
+
+    <script>
+        // Custom Cursor Logic
+        const cursor = document.getElementById('cursor');
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+        });
+
+        // GSAP Animations
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Hero Title Entrance
+        gsap.from("#hero-title", {
+            duration: 1.5,
+            y: 100,
+            opacity: 0,
+            ease: "power4.out"
+        });
+
+        // Scroll Reveal for Cards
+        gsap.utils.toArray(".reveal").forEach(card => {
+            gsap.from(card, {
+                scrollTrigger: {
+                    trigger: card,
+                    start: "top 85%",
+                },
+                y: 50,
+                opacity: 0,
+                duration: 1,
+                ease: "power3.out"
+            });
+        });
+
+        // Number Counter Animation
+        const counters = document.querySelectorAll('.counter');
+        counters.forEach(counter => {
+            gsap.from(counter, {
+                scrollTrigger: {
+                    trigger: counter,
+                    start: "top 90%",
+                },
+                innerText: 0,
+                duration: 2,
+                snap: { innerText: 1 },
+                ease: "power1.out"
+            });
+        });
+    </script>
 </body>
 </html>
