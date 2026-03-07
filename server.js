@@ -1,58 +1,35 @@
-// Minimal Express server to proxy OpenAI and fetch Wikipedia/Wikidata
-import express from 'express';
-import fetch from 'node-fetch';
-import dotenv from 'dotenv';
-dotenv.config();
+const fs = require('fs');
+const animals = require('./animals.json'); // Load JSON
 
-const app = express();
-app.use(express.json());
-app.use(express.static('public')); // serve frontend files from /public
-
-// Wikipedia summary endpoint
-app.get('/api/wiki', async (req, res) => {
-  const q = req.query.query || '';
-  const url = `https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(q)}`;
-  const r = await fetch(url);
-  if (!r.ok) return res.status(500).json({error:'Wikipedia fetch failed'});
-  const data = await r.json();
-  res.json({title: data.title, extract: data.extract});
+animals.forEach(animal => {
+  const filename = `animals/${animal.name.toLowerCase().replace(/\s/g, '-')}.html`;
+  const content = `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>${animal.name} - Animal Explorer</title>
+  <style>
+    body { font-family: Arial; background: linear-gradient(to bottom, #2196F3, #673AB7); color: white; text-align: center; padding: 50px; animation: bgAnim 10s infinite; }
+    @keyframes bgAnim { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+    img { max-width: 80%; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); transition: transform 0.5s; }
+    img:hover { transform: rotate(5deg) scale(1.1); }
+    h1 { font-size: 4em; text-shadow: 3px 3px 6px #000; }
+    p { font-size: 1.5em; background: rgba(0,0,0,0.4); padding: 20px; border-radius: 10px; }
+  </style>
+</head>
+<body>
+  <h1>${animal.name}</h1>
+  <img src="https://source.unsplash.com/featured/800x600/?${animal.name.toLowerCase()},wildlife" alt="${animal.name}">
+  <p>Habitat: ${animal.habitat}</p>
+  <p>Fact: ${animal.fact}</p>
+  <a href="../index.html" style="color: #FFEB3B; text-decoration: none; font-size: 1.2em;">Back to Home</a>
+</body>
+</html>
+  `;
+  fs.mkdirSync('animals', { recursive: true });
+  fs.writeFileSync(filename, content);
+  console.log(`Generated: ${filename}`);
 });
-
-// Wikidata search (basic)
-app.get('/api/wikidata', async (req, res) => {
-  const q = req.query.query || '';
-  const url = `https://www.wikidata.org/w/api.php?action=wbsearchentities&search=${encodeURIComponent(q)}&language=en&format=json`;
-  const r = await fetch(url);
-  const data = await r.json();
-  const first = data.search && data.search[0];
-  if (!first) return res.json({});
-  // fetch entity details
-  const entityUrl = `https://www.wikidata.org/wiki/Special:EntityData/${first.id}.json`;
-  const ent = await fetch(entityUrl).then(r=>r.json());
-  res.json({id:first.id, description:first.description || '', entity: ent});
-});
-
-// Chat proxy to OpenAI (example using fetch to OpenAI REST)
-app.post('/api/chat', async (req, res) => {
-  const prompt = req.body.prompt || '';
-  if (!process.env.OPENAI_API_KEY) return res.status(500).json({error:'Server missing OPENAI_API_KEY'});
-  try {
-    const r = await fetch('https://api.openai.com/v1/chat/completions', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${process.env.OPENAI_API_KEY}` },
-      body: JSON.stringify({
-        model: 'gpt-4o-mini', // example; choose appropriate model
-        messages: [{role:'user', content: prompt}],
-        max_tokens: 600
-      })
-    });
-    const data = await r.json();
-    const reply = data.choices?.[0]?.message?.content || 'No reply';
-    res.json({reply});
-  } catch (err) {
-    res.status(500).json({error: err.message});
-  }
-});
-
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, ()=>console.log(`Server running on ${PORT}`));
+console.log('50 creative animal pages generated! Commit to GitHub.');
