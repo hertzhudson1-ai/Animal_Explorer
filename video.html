@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wildlife Videos - Animal Explorer</title>
+  <link rel="stylesheet" href="styles.css">
+  <!-- Plyr CSS for beautiful styling (YouTube/Vimeo + self-hosted) -->
+  <link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css" />
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Wildlife Video Gallery</h1>
+      <p>Watch stunning animal documentaries and clips — stay right here!</p>
+    </header>
+
+    <section class="video-gallery">
+      <!-- YouTube Example (Plyr enhances it) -->
+      <div class="video-card">
+        <div class="plyr__video-embed" id="youtube-player">
+          <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ?origin=https://hertzhudson1-ai.github.io" allowfullscreen allow="autoplay"></iframe>
+        </div>
+        <div class="video-info">
+          <h3>Lion Pride Life (YouTube)</h3>
+        </div>
+      </div>
+
+      <!-- Vimeo Example -->
+      <div class="video-card">
+        <div class="plyr__video-embed" id="vimeo-player">
+          <iframe src="https://player.vimeo.com/video/76979871?h=yourvimeoid" allowfullscreen allow="autoplay"></iframe>
+        </div>
+        <div class="video-info">
+          <h3>Elephant Migration (Vimeo)</h3>
+        </div>
+      </div>
+
+      <!-- TikTok Example (native embed) -->
+      <div class="video-card">
+        <iframe src="https://www.tiktok.com/embed/v2/1234567890" style="width:100%;height:600px;" frameborder="0" allowfullscreen></iframe>
+        <div class="video-info">
+          <h3>Cheetah Sprint (TikTok)</h3>
+        </div>
+      </div>
+
+      <!-- Instagram Example -->
+      <div class="video-card">
+        <iframe src="https://www.instagram.com/embed.js/p/C_example_post_id/" width="100%" height="600" frameborder="0" scrolling="no" allowtransparency="true"></iframe>
+        <div class="video-info">
+          <h3>Gorilla Family (Instagram)</h3>
+        </div>
+      </div>
+
+      <!-- Facebook Video Example -->
+      <div class="video-card">
+        <iframe src="https://www.facebook.com/plugins/video.php?href=https%3A%2F%2Fwww.facebook.com%2Fwatch%2Fvideo%2Fexampleid&width=500&show_text=false&t=0" width="100%" height="400" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowfullscreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"></iframe>
+        <div class="video-info">
+          <h3>Wildlife Rescue (Facebook)</h3>
+        </div>
+      </div>
+
+      <!-- Self-hosted MP4 Example with Plyr -->
+      <div class="video-card">
+        <video id="self-hosted" playsinline controls>
+          <source src="https://example.com/wildlife.mp4" type="video/mp4">
+        </video>
+        <div class="video-info">
+          <h3>Local Wildlife Clip</h3>
+        </div>
+      </div>
+    </section>
+
+    <a href="index.html" class="btn">Back to Animals</a>
+  </div>
+
+  <!-- Plyr JS (enhances all embeds & self-hosted) -->
+  <script src="https://cdn.plyr.io/3.7.8/plyr.js"></script>
+  <script>
+    // Initialize Plyr on all players for consistent, beautiful controls
+    const players = Plyr.setup('.plyr__video-embed, video');
+  </script>
+</body>
+</html>
