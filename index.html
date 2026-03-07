@@ -113,6 +113,53 @@
     </style>
 </head>
 <body>
+    <!-- Exclusive Enhancement: Interactive Animal Search Module -->
+<section id="animal-search" style="margin-top: 40px; padding: 20px; background: #f0f8ff; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+  <h2 style="color: #2e8b57;">Explore Animals Interactively</h2>
+  <p>Search for species below to reveal facts. This adds dynamic creativity to your GitHub site!</p>
+  
+  <input type="text" id="searchInput" placeholder="Search for an animal (e.g., Lion)" style="width: 100%; padding: 10px; margin-bottom: 20px; border: 1px solid #ccc; border-radius: 4px;">
+  
+  <ul id="animalList" style="list-style: none; padding: 0;"></ul>
+</section>
+
+<script>
+  // Sample animal data (expand with more entries or fetch from an API for advanced creativity)
+  const animals = [
+    { name: 'Lion', habitat: 'Savanna', fact: 'Known as the king of the jungle, lions live in prides.' },
+    { name: 'Elephant', habitat: 'Forest/Savanna', fact: 'Largest land animal, with excellent memory.' },
+    { name: 'Dolphin', habitat: 'Ocean', fact: 'Highly intelligent marine mammals that use echolocation.' },
+    { name: 'Eagle', habitat: 'Mountains', fact: 'Bird of prey with exceptional eyesight.' },
+    // Add more here for expansion
+  ];
+
+  const searchInput = document.getElementById('searchInput');
+  const animalList = document.getElementById('animalList');
+
+  function displayAnimals(filteredAnimals) {
+    animalList.innerHTML = ''; // Clear list
+    filteredAnimals.forEach(animal => {
+      const li = document.createElement('li');
+      li.innerHTML = `<strong>${animal.name}</strong> - Habitat: ${animal.habitat}<br>Fact: ${animal.fact}`;
+      li.style.marginBottom = '15px';
+      li.style.padding = '10px';
+      li.style.background = '#fff';
+      li.style.borderRadius = '4px';
+      li.style.boxShadow = '0 1px 5px rgba(0,0,0,0.05)';
+      animalList.appendChild(li);
+    });
+  }
+
+  // Initial display
+  displayAnimals(animals);
+
+  // Search functionality (case-insensitive)
+  searchInput.addEventListener('input', () => {
+    const query = searchInput.value.toLowerCase();
+    const filtered = animals.filter(animal => animal.name.toLowerCase().includes(query));
+    displayAnimals(filtered);
+  });
+</script>
 
     <header>
         <a href="#" class="brand">
