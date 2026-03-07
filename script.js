@@ -1,39 +1,23 @@
-// Global variables
-let currentAnimal = null;
-let videoPlayer = null;
-let webcamStream = null;
-let settings = {
-    theme: 'dark',
-    fontSize: 'medium',
-    videoQuality: 'auto',
-    autoplayVideos: true,
-    aiModel: 'gpt-3.5',
-    visionAccuracy: 'balanced',
-    autoDetect: true,
-    dataSources: ['wikipedia', 'iucn', 'natgeo', 'animaldiversity'],
-    notifications: true,
-    soundEffects: true
-};
+document.getElementById('regForm').addEventListener('submit', (e) => {
+  e.preventDefault();
+  const name = document.getElementById('name').value;
+  const email = document.getElementById('email').value;
+  const pass = document.getElementById('password').value;
+  const confirmPass = document.getElementById('confirmPass').value;
+  const human = document.getElementById('humanCheck').checked;
+  const message = document.getElementById('message');
 
-// Mock data for demonstration (in production, this would come from APIs)
-const animalDatabase = {
-    lion: {
-        name: 'Lion',
-        scientificName: 'Panthera leo',
-        conservationStatus: 'Vulnerable',
-        habitat: 'Savannas, grasslands, and open woodlands',
-        diet: 'Carnivore - primarily large ungulates',
-        lifespan: '10-14 years in wild, up to 20 years in captivity',
-        weight: '150-250 kg (males), 120-180 kg (females)',
-        speed: 'Up to 80 km/h',
-        description: 'The lion is a large cat of the genus Panthera native to Africa and India. It has a muscular, deep-chested body, short, rounded head, round ears, and a hairy tuft at the end of its tail.',
-        behavior: 'Lions are social animals, living in groups called prides. Females do most of the hunting, while males protect the territory.',
-        threats: 'Habitat loss, human-wildlife conflict, poaching',
-        interestingFacts: [
-            'Lions are the only cats that live in groups',
-            'A lion\'s roar can be heard from 8 kilometers away',
-            'Lions sleep for up to 20 hours a day'
-        ],
-        images: [
-            'https://images.unsplash.com/photo-1546182990-dffeafbe841d',
-            'https://images.unsplash.com/
+  // Basic validation
+  if (name.length < 3) return message.textContent = 'Name too short - False details!';
+  if (!/\S+@\S+\.\S+/.test(email)) return message.textContent = 'Invalid email - False!';
+  if (pass !== confirmPass || pass.length < 8) return message.textContent = 'Passwords mismatch or weak - False!';
+  if (!human) return message.textContent = 'Prove you\'re human - False!';
+
+  // Simulate "proof" API check (e.g., email exists? Use free validator API)
+  fetch(`https://api.hunter.io/v2/email-verifier?email=${email}&api_key=your_free_hunter_key`) // Get free key from hunter.io
+    .then(res => res.json())
+    .then(data => {
+      message.textContent = data.data.result === 'deliverable' ? 'Details verified true! Registered.' : 'Email invalid - False details!';
+    })
+    .catch(() => message.textContent = 'Verification failed - Try again.');
+});
