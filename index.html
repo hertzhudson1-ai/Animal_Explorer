@@ -1,6 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <script type="module">
+  import config from './config.js';
+
+  // Example: Fetch animal data with API key
+  async function loadFeaturedAnimal() {
+    try {
+      const res = await fetch(config.ENDPOINTS.zooRandom, {
+        headers: config.getApiHeader('zooAnimal')
+      });
+      const data = await res.json();
+      // Use data.name, data.image_link, etc. to update #featured-image or sidebar
+      console.log('Featured animal:', data.name);
+    } catch (err) {
+      console.error('API error:', err);
+    }
+  }
+
+  // Call on load or when clicking a topic
+  window.addEventListener('load', loadFeaturedAnimal);
+</script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Wildlife Explorer | Discover the Unseen</title>
