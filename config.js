@@ -8,7 +8,7 @@ export const API_KEYS = {
   zooAnimal: '',  // Usually no key required → leave empty or put dummy
 
   // API Ninjas Animals (if you still want to use it)
-  apiNinjas: 'YOUR_ACTUAL_X_API_KEY_HERE',  // ← Paste your real key here (get from api-ninjas.com)
+  apiNinjas: 'c4cl9184mblEFyesyrFGJqxCLVZAs4UvyvWFSubt',  // ← Paste your real key here (get from api-ninjas.com)
 
   // Xeno-canto (bird/wildlife sounds) - free, no key
   xenoCanto: '',
